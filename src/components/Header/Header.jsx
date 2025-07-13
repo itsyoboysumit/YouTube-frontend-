@@ -2,21 +2,27 @@
 import React, { useContext } from "react";
 import { Search, Menu, Youtube, Video, Bell, Mic } from "lucide-react";
 import { SidebarContext } from "../../context/SidebarContext";
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from "../../hooks/useAuth";
+import AvatarDropdown from "./AvatarDropdown.jsx";
 
 const Header = ({ onLoginClick }) => {
   const { toggleSidebar } = useContext(SidebarContext);
-    const { user } = useAuth(); 
+  const { user } = useAuth();
 
   return (
     <header className="fixed top-0 left-0 right-0 bg-[#0f0f0f] text-white flex justify-between items-center px-4 py-2 z-50">
       <div className="flex items-center space-x-4">
-        <button onClick={toggleSidebar} className="p-2 rounded-full hover:bg-zinc-800">
+        <button
+          onClick={toggleSidebar}
+          className="p-2 rounded-full hover:bg-zinc-800"
+        >
           <Menu size={24} />
         </button>
         <a href="#" className="flex items-center space-x-2">
           <Youtube size={32} className="text-red-600" />
-          <span className="text-2xl font-semibold hidden md:block">YouTube</span>
+          <span className="text-2xl font-semibold hidden md:block">
+            YouTube
+          </span>
         </a>
       </div>
       <div className="flex-1 flex justify-center px-4 lg:px-16">
@@ -44,13 +50,17 @@ const Header = ({ onLoginClick }) => {
             3
           </span>
         </button>
-        <button onClick={onLoginClick}>
-          <img
-            src={user?.avatar || "https://placehold.co/40x40/7e22ce/ffffff?text=U"}
-            alt="User Avatar"
-            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border border-zinc-700"
-          />
-        </button>
+        {user ? (
+          <AvatarDropdown />
+        ) : (
+          <button onClick={onLoginClick}>
+            <img
+              src="https://placehold.co/40x40/7e22ce/ffffff?text=U"
+              alt="User Avatar"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border border-zinc-700"
+            />
+          </button>
+        )}
       </div>
     </header>
   );

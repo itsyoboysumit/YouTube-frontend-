@@ -1,55 +1,46 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import AuthContext from './AuthContext';
+import { logoutUser, getCurrentUser, refreshToken } from '../services/auth';
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const login = async (userData, refreshToken) => {
-    setUser(userData);
-    localStorage.setItem('refreshToken', refreshToken);
+  const login = async () => {
+    try {
+      const currentUser = await getCurrentUser();
+      setUser(currentUser.data);
+    } catch (err) {
+      console.error("Login failed while fetching current user", err);
+    }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await logoutUser();
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
     setUser(null);
-    localStorage.removeItem('refreshToken');
   };
 
   useEffect(() => {
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  const tryRestoreSession = async () => {
-    if (refreshToken) {
+    const tryRestoreSession = async () => {
       try {
-        // 1. Call refresh endpoint to get new tokens
-        const res = await axios.post('/api/v1/users/refresh-token', { refreshToken });
-
-        const { accessToken, refreshToken: newRefreshToken } = res.data;
-
-        // 2. Save new refresh token
-        localStorage.setItem('refreshToken', newRefreshToken);
-
-        // 3. Set access token for future requests
-        axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
-        // 4. Now fetch user data by hitting the current user endpoint
-        const profileRes = await axios.get('/api/v1/users/current-user');
-        setUser(profileRes.data.data); 
-        console.log("User restored from session:", profileRes.data.data);
-        console.log("Name:", profileRes.data.data.fullName);
-
+        await refreshToken(); // cookies are automatically included
+        const currentUser = await getCurrentUser();
+        setUser(currentUser.data);
+        console.log("User restored from session:", currentUser.data);
       } catch (err) {
-        console.error('Session restore failed', err);
-        logout();
+        console.error('Session restore failed:', err);
+        setUser(null);
+      } finally {
+        setLoading(false);
       }
-    }
+    };
 
-    setLoading(false);
-  };
-
-  tryRestoreSession();
-}, []);
+    tryRestoreSession();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, login, logout, loading }}>
