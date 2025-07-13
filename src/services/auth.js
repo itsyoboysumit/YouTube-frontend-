@@ -1,15 +1,31 @@
 import { api } from './api'; // configured axios instance
 
 
-export const registerUser = async (formData) => {
+export const registerUser = async ({
+  username,
+  fullName,
+  email,
+  password,
+  avatar,
+  coverImage,
+}) => {
+  const formData = new FormData();
+  formData.append('username', username);
+  formData.append('fullName', fullName);
+  formData.append('email', email);
+  formData.append('password', password);
+  if (avatar) formData.append('avatar', avatar);
+  if (coverImage) formData.append('coverImage', coverImage);
+
   const response = await api.post('/v1/users/register', formData, {
     headers: {
-      'Content-Type': 'multipart/form-data', 
+      'Content-Type': 'multipart/form-data',
     },
   });
 
-  return response.data;// returns { statusCode, data, message, success }
+  return response.data; // { statusCode, data, message, success }
 };
+
 
 
 

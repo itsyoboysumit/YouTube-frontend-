@@ -32,22 +32,15 @@ const RegisterForm = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const payload = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      if (value) payload.append(key, value);
-    });
-
     try {
-      const res = await registerUser(payload);
-      const { message } = res;
-
-      toast.success(message || 'User registered successfully!');
-      onClose();
+      const res = await registerUser(formData);
+      toast.success(res.message || 'User registered successfully!');
+      onClose(); // Close modal or dialog
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Registration failed');
-      console.error('❌ Registration error:', err.response?.data || err.message);
+      toast.error(err?.response?.data?.message || 'Registration failed');
+      console.error('❌ Registration error:', err);
 
-      // Clear form and preview on error
+      // Optionally clear form and preview on error
       setFormData({
         username: '',
         fullName: '',
@@ -133,7 +126,10 @@ const RegisterForm = ({ onClose }) => {
         )}
       </div>
 
-      <button type="submit" className="w-full bg-red-600 hover:bg-red-700 p-2 rounded">
+      <button
+        type="submit"
+        className="w-full bg-red-600 hover:bg-red-700 p-2 rounded text-white font-semibold"
+      >
         Sign Up
       </button>
     </form>

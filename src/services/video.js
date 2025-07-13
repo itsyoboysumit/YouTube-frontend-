@@ -1,26 +1,50 @@
 import { api } from "./api";
 
-// Fetch videos from backend
-export const getAllVideos = async () => {
-  try {
-    const response = await api.get(`/v1/videos`);
+export const uploadVideo = async ({ title, description, videoFile, thumbnail }) => {
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('description', description);
+  formData.append('videoFile', videoFile);
+  formData.append('thumbnail', thumbnail);
 
-    // 🐞 Log the full response for debugging
-    console.log("✅ Video API response:", response);
+  const response = await api.post('/v1/videos', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 
-    // Extract the docs array
-    const videos = response.data?.data?.docs;
-
-    // Confirm the shape is what we expect
-    if (!Array.isArray(videos)) {
-      console.warn("⚠️ 'docs' is not an array:", videos);
-      return [];
-    }
-
-    console.log(`✅ Successfully retrieved ${videos.length} videos.`);
-    return videos;
-  } catch (error) {
-    console.error("❌ Error fetching videos:", error);
-    return [];
-  }
+  return response.data; // { statusCode, data, message, success }
 };
+
+export const getAllVideos = async () => {
+  const response = await api.get('/v1/videos/');
+  return response.data.data.docs; // returns an array of video objects
+};
+
+
+
+export const getVideoById = async (videoId) => {
+  const response = await api.get(`/v1/videos/${videoId}`);
+  return response.data.data; // returns the specific video object
+};
+
+export const updateVideoThumbnail = async (videoId, thumbnailFile) => {
+  const formData = new FormData();
+  formData.append("thumbnail", thumbnailFile);
+
+  const response = await api.patch(`/v1/videos/${videoId}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data; // { statusCode, data, message, success }
+};
+
+// src/services/video.js
+
+export const deleteVideoById = async (videoId) => {
+  const response = await api.delete(`/v1/videos/${videoId}`);
+  return response.data;
+};
+

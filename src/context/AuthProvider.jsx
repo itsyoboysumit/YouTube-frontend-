@@ -30,7 +30,6 @@ const AuthProvider = ({ children }) => {
         await refreshToken(); // cookies are automatically included
         const currentUser = await getCurrentUser();
         setUser(currentUser.data);
-        console.log("User restored from session:", currentUser.data);
       } catch (err) {
         console.error('Session restore failed:', err);
         setUser(null);

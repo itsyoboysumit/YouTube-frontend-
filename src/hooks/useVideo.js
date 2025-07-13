@@ -8,15 +8,14 @@ export const useVideos = () => {
 
   useEffect(() => {
     const fetchVideos = async () => {
-      console.log("📡 Starting video fetch..."); // Debug: fetch triggered
 
       try {
-        const data = await getAllVideos();
+        const res = await getAllVideos(); // res = { statusCode, data, message, success }
+        const docs = res || [];
 
-        console.log("📦 Videos fetched:", data); // Debug: log fetched data
-        setVideos(data);
+        setVideos(docs);
       } catch (error) {
-        console.error('❌ Failed to fetch videos:', error);
+        console.error('Failed to fetch videos:', error);
       } finally {
         setLoading(false);
       }

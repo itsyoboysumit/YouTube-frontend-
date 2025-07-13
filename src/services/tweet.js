@@ -24,18 +24,3 @@ export const updateTweet = async (tweetId, content) => {
 };
 
 
-export const uploadVideo = async ({ title, description, videoFile, thumbnail }) => {
-  const formData = new FormData();
-  formData.append('title', title);
-  formData.append('description', description);
-  formData.append('videoFile', videoFile);
-  formData.append('thumbnail', thumbnail);
-
-  const response = await api.post('/v1/videos', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-
-  return response.data; // { statusCode, data, message, success }
-};
