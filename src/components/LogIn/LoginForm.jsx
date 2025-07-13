@@ -21,14 +21,15 @@ const LoginForm = ({ onClose, onSuccess }) => {
     try {
       const res = await loginUser(credentials);
 
-      const { user } = res.data;
-      const { accessToken } = res;
+      const { user, refreshToken } = res.data;
+      
+      console.log("localStorage refreshToken:", refreshToken);
 
       login(user); // update context state
 
       toast.success(`Welcome ${user.fullName} !`);
 
-      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
 
       onSuccess?.(user);
       onClose?.();

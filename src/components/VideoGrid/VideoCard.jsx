@@ -2,10 +2,7 @@ import { formatViews } from "../../utilis/formatViews.js";
 import { timeAgo } from "../../utilis/timeAgo.js";
 
 export default function VideoCard({ video }) {
-  // 🐞 Debug: log each video object passed to the component
-  console.log("Rendering VideoCard:", video);
-
-  // 🚨 Early return to prevent crashes on bad data
+  
   if (
     !video ||
     typeof video !== "object" ||
