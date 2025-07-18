@@ -10,7 +10,7 @@ export const useVideos = () => {
     const fetchVideos = async () => {
 
       try {
-        const res = await getAllVideos(); // res = { statusCode, data, message, success }
+        const res = await getAllVideos(); 
         const docs = res || [];
 
         setVideos(docs);

@@ -19,5 +19,5 @@ export const updateComment = async (commentId, content) => {
 
 export const getVideoComments = async (videoId) => {
   const response = await api.get(`/v1/comments/${videoId}`);
-  return response.data.data;
+  return response.data.data.docs; // passing comment object 
 };
