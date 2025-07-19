@@ -2,22 +2,23 @@ import React, { useState } from 'react';
 import { ThumbsUp, SendHorizonal } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { toggleLikeComment } from '../../services/like';
-import toast from 'react-hot-toast';
 import { addComment } from '../../services/comment';
+import toast from 'react-hot-toast';
+import { timeAgo } from '../../utilis/timeAgo';
 
-const Comments = ({ comments, videoId, refreshComments}) => {
+const Comments = ({ comments, videoId, refreshComments }) => {
   const { user } = useAuth();
   const validComments = Array.isArray(comments) ? comments : [];
   const [newComment, setNewComment] = useState('');
-  const [likedComments, setLikedComments] = useState({}); 
+  const [likedComments, setLikedComments] = useState({});
 
-   const handlePostComment = async () => {
+  const handlePostComment = async () => {
     if (!user) return toast.error("Login to post a comment");
     if (!newComment.trim()) return;
 
     try {
-      await addComment(videoId, newComment); 
-      setNewComment(''); 
+      await addComment(videoId, newComment);
+      setNewComment('');
       refreshComments();
     } catch (err) {
       console.error("Failed to post comment:", err);
@@ -44,9 +45,11 @@ const Comments = ({ comments, videoId, refreshComments}) => {
 
   return (
     <div className="mt-6">
-      <h3 className="text-lg font-semibold mb-4">{validComments.length} Comments</h3>
+      <h3 className="text-lg font-semibold mb-4">
+        {validComments.length} Comments
+      </h3>
 
-      {/* Input Box */}
+      {/* Comment Input */}
       <div className="mb-6 flex gap-4 items-center">
         <img
           src={user?.avatar || 'https://i.pravatar.cc/40?img=2'}
@@ -82,9 +85,9 @@ const Comments = ({ comments, videoId, refreshComments}) => {
               />
               <div>
                 <div className="text-sm text-gray-400 flex items-center gap-2">
-                  {comment.ownerDetails.username || "Anonymous"} •
+                  {comment.ownerDetails?.username || "Anonymous"} •
                   <span className="text-xs text-gray-400">
-                    {new Date(comment.createdAt).toLocaleDateString()}
+                    {timeAgo(comment.createdAt)}
                   </span>
                 </div>
                 <p className="text-sm font-semibold text-gray-300">{comment.content}</p>

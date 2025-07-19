@@ -1,8 +1,7 @@
-// src/components/VideoPlayerPage/VideoDetails.jsx
-
 import React, { useState } from "react";
 import { ThumbsUp, ThumbsDown, Share, Save } from "lucide-react";
-import { toggleLikeVideo } from "../../services/like"; // make sure this path is correct
+import { toggleLikeVideo } from "../../services/like";
+import { timeAgo } from "../../utilis/timeAgo"; // ✅ added
 
 const VideoDetails = ({ video }) => {
   const [liked, setLiked] = useState(false);
@@ -28,7 +27,6 @@ const VideoDetails = ({ video }) => {
         .then(() => console.log("Video shared successfully"))
         .catch((error) => console.error("Sharing failed:", error));
     } else {
-      // fallback: copy link
       navigator.clipboard.writeText(videoUrl).then(() => {
         alert("Link copied to clipboard!");
       });
@@ -40,10 +38,9 @@ const VideoDetails = ({ video }) => {
       <h1 className="text-xl font-semibold">{video.title}</h1>
       <div className="flex justify-between items-center mt-2 text-gray-400 text-sm">
         <span>
-          {video.views} views • {new Date(video.createdAt).toDateString()}
+          {video.views} views • {timeAgo(video.createdAt)} {/* ✅ changed */}
         </span>
         <div className="flex gap-4">
-          {/* 👍 Like */}
           <div
             onClick={handleLikeToggle}
             className={`flex items-center gap-1 cursor-pointer hover:text-white ${
@@ -53,7 +50,6 @@ const VideoDetails = ({ video }) => {
             <ThumbsUp size={18} />
           </div>
 
-          {/* 👎 Dislike */}
           <div className="flex items-center gap-1 cursor-pointer hover:text-white">
             <ThumbsDown size={18} />
           </div>
@@ -65,7 +61,6 @@ const VideoDetails = ({ video }) => {
             <Share size={18} /> <span>Share</span>
           </div>
 
-          {/* 💾 Save */}
           <div className="flex items-center gap-1 cursor-pointer hover:text-white">
             <Save size={18} /> <span>Save</span>
           </div>
