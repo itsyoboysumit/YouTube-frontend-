@@ -7,7 +7,7 @@ export const toggleSubscription = async (channelId) => {
 
 export const getSubscribers = async (subscriberId) => {
   const response = await api.get(`/v1/subscriptions/u/${subscriberId}`);
-  return response.data.data; // returns array of subscriptions
+  return response.data.data; // returns array of subscriber objects
 };
 
 export const getSubscribedChannels = async (channelId) => {

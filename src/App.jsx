@@ -16,7 +16,7 @@ const App = () => {
         position="top-right"
         toastOptions={{
           style: { background: '#333', color: '#fff' },
-          duration: 2000,
+          duration: 1200,
         }}
       />
 

@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import { ThumbsUp, ThumbsDown, Share, Save } from "lucide-react";
 import { toggleLikeVideo } from "../../services/like";
-import { timeAgo } from "../../utilis/timeAgo"; // ✅ added
+import { timeAgo } from "../../utilis/timeAgo"; 
+import { useAuth } from "../../hooks/useAuth";  
+import {toast} from "react-hot-toast";
+
 
 const VideoDetails = ({ video }) => {
+  const {user} = useAuth();
   const [liked, setLiked] = useState(false);
 
   const handleLikeToggle = async () => {
     try {
+      if (!user){
+        toast("Please login to like the video");
+        return;
+      } 
       const isLikedNow = await toggleLikeVideo(video._id);
       setLiked(isLikedNow);
     } catch (error) {
@@ -44,7 +52,7 @@ const VideoDetails = ({ video }) => {
           <div
             onClick={handleLikeToggle}
             className={`flex items-center gap-1 cursor-pointer hover:text-white ${
-              liked ? "text-blue-500" : ""
+              liked ? "text-pink-500" : ""
             }`}
           >
             <ThumbsUp size={18} />

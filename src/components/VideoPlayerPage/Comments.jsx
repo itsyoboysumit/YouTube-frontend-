@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
-import { ThumbsUp, SendHorizonal } from 'lucide-react';
-import { useAuth } from '../../hooks/useAuth';
-import { toggleLikeComment } from '../../services/like';
-import { addComment } from '../../services/comment';
-import toast from 'react-hot-toast';
-import { timeAgo } from '../../utilis/timeAgo';
+import React, { useState } from "react";
+import { ThumbsUp, SendHorizonal } from "lucide-react";
+import { FaUserCircle } from "react-icons/fa";
+import { useAuth } from "../../hooks/useAuth";
+import { toggleLikeComment } from "../../services/like";
+import { addComment } from "../../services/comment";
+import toast from "react-hot-toast";
+import { timeAgo } from "../../utilis/timeAgo";
 
 const Comments = ({ comments, videoId, refreshComments }) => {
   const { user } = useAuth();
   const validComments = Array.isArray(comments) ? comments : [];
-  const [newComment, setNewComment] = useState('');
+  const [newComment, setNewComment] = useState("");
   const [likedComments, setLikedComments] = useState({});
 
   const handlePostComment = async () => {
-    if (!user) return toast.error("Login to post a comment");
+    if (!user) {
+      toast("Please login to post a comment");
+      setNewComment("");
+      return;
+    }
+
     if (!newComment.trim()) return;
 
     try {
       await addComment(videoId, newComment);
-      setNewComment('');
+      setNewComment("");
       refreshComments();
     } catch (err) {
       console.error("Failed to post comment:", err);
@@ -36,7 +42,7 @@ const Comments = ({ comments, videoId, refreshComments }) => {
       const liked = await toggleLikeComment(commentId);
       setLikedComments((prev) => ({
         ...prev,
-        [commentId]: liked
+        [commentId]: liked,
       }));
     } catch (error) {
       console.error("Failed to like comment:", error);
@@ -51,11 +57,15 @@ const Comments = ({ comments, videoId, refreshComments }) => {
 
       {/* Comment Input */}
       <div className="mb-6 flex gap-4 items-center">
-        <img
-          src={user?.avatar || 'https://i.pravatar.cc/40?img=2'}
-          alt="User"
-          className="w-10 h-10 rounded-full"
-        />
+        {user?.avatar ? (
+          <img
+            src={user.avatar}
+            alt="User"
+            className="w-10 h-10 rounded-full"
+          />
+        ) : (
+          <FaUserCircle className="w-10 h-10 text-gray-400" />
+        )}
         <input
           type="text"
           value={newComment}
@@ -79,7 +89,10 @@ const Comments = ({ comments, videoId, refreshComments }) => {
           return (
             <div key={comment._id} className="flex gap-4">
               <img
-                src={comment.ownerDetails?.avatar || 'https://i.pravatar.cc/40?img=1'}
+                src={
+                  comment.ownerDetails?.avatar ||
+                  "https://i.pravatar.cc/40?img=1"
+                }
                 alt="Commenter"
                 className="w-8 h-8 rounded-full"
               />
@@ -90,11 +103,13 @@ const Comments = ({ comments, videoId, refreshComments }) => {
                     {timeAgo(comment.createdAt)}
                   </span>
                 </div>
-                <p className="text-sm font-semibold text-gray-300">{comment.content}</p>
+                <p className="text-sm font-semibold text-gray-300">
+                  {comment.content}
+                </p>
                 <div
                   onClick={() => handleToggleLike(comment._id)}
                   className={`flex items-center gap-1 text-xs mt-1 cursor-pointer transition-colors ${
-                    isLiked ? 'text-red-500' : 'text-gray-400 hover:text-white'
+                    isLiked ? "text-pink-500" : "text-gray-400 hover:text-white"
                   }`}
                 >
                   <ThumbsUp size={14} />
