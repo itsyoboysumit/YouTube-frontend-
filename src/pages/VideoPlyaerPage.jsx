@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getVideoById, getAllVideos } from '../services/video';
+import { getVideoById, getAllVideos, updateVideoViewCount } from '../services/video';
 import { getVideoComments } from '../services/comment';
 import Loader from '../components/Loader'; 
 
@@ -24,6 +24,7 @@ const VideoPlayerPage = () => {
         const fetchedVideo = await getVideoById(videoId);
         const fetchedComments = await getVideoComments(videoId);
         const allVideos = await getAllVideos();
+        updateVideoViewCount(videoId); // Update view count for the video
 
         setVideo(fetchedVideo);
         setComments(fetchedComments);

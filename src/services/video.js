@@ -48,3 +48,7 @@ export const deleteVideoById = async (videoId) => {
   return response.data;
 };
 
+
+export const updateVideoViewCount = async (videoId) => {
+  await api.patch(`/v1/videos/views/${videoId}`);
+}
