@@ -1,6 +1,6 @@
 // src/layout/Layout.jsx
 import React, { useState, useEffect } from 'react';
-import { Header, Sidebar, CategoriesBar } from '../components';
+import { Header, Sidebar } from '../components';
 import { SidebarContext } from '../context/SidebarContext';
 
 const Layout = ({ children, onLoginClick }) => {
@@ -27,7 +27,6 @@ const Layout = ({ children, onLoginClick }) => {
         <Header onLoginClick={onLoginClick} /> {/* ✔ Pass login control */}
         <Sidebar />
         <main className={`pt-16 transition-all duration-300 ease-in-out text-white bg-[#0f0f0f] ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
-          <CategoriesBar />
           <div className="p-4 sm:p-6 lg:p-8">{children}</div>
         </main>
       </div>

@@ -2,13 +2,22 @@ import React, { useState } from 'react';
 import { loginUser } from '../../services/auth';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../../hooks/useAuth';
+import { PulseBubbleLoader } from 'react-loaders-kit';
+
+const loaderProps = {
+  loading: true,
+  size: 25,
+  duration: 1,
+  colors: ['#ffffff', '#ffffff', '#ffffff'],
+};
 
 const LoginForm = ({ onClose, onSuccess }) => {
-  const { login } = useAuth(); // ✅ Use directly
+  const { login } = useAuth();
   const [credentials, setCredentials] = useState({
     email: '',
     password: ''
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,23 +26,23 @@ const LoginForm = ({ onClose, onSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const res = await loginUser(credentials);
-
       const { user } = res.data;
 
-      login(user); // update context state
-
+      login(user);
       toast.success(`Welcome ${user.fullName} !`);
-
 
       onSuccess?.(user);
       onClose?.();
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed');
-      console.error("❌ Login failed:", err.response?.data || err.message);
+      console.error("Login error:", err.response?.data || err.message);
       setCredentials({ email: '', password: '' });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,6 +53,7 @@ const LoginForm = ({ onClose, onSuccess }) => {
         name="email"
         placeholder="Email"
         required
+        disabled={loading}
         value={credentials.email}
         onChange={handleChange}
         className="w-full p-2 bg-zinc-800 rounded"
@@ -53,15 +63,18 @@ const LoginForm = ({ onClose, onSuccess }) => {
         name="password"
         placeholder="Password"
         required
+        disabled={loading}
         value={credentials.password}
         onChange={handleChange}
         className="w-full p-2 bg-zinc-800 rounded"
       />
+
       <button
         type="submit"
-        className="w-full bg-red-600 hover:bg-red-900 p-2 rounded"
+        disabled={loading}
+        className="w-full bg-red-600 hover:bg-red-900 p-2 rounded flex justify-center items-center"
       >
-        Log In
+        {loading ? <PulseBubbleLoader {...loaderProps} /> : 'Log In'}
       </button>
     </form>
   );

@@ -1,6 +1,6 @@
 // src/components/LoginModal.jsx
 import { useState } from 'react';
-import LoginForm from './LogInform.jsx';
+import LoginForm from './LoginForm.jsx';
 import RegisterForm from './RegisterFrom.jsx';
 
 

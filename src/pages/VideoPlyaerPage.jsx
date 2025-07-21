@@ -62,7 +62,7 @@ const VideoPlayerPage = () => {
         <div className="flex-1 w-full">
           <VideoPlayer videoUrl={video.videoFile} />
           <VideoDetails video={video} />
-          <ChannelInfo owner={video.owner} />
+          <ChannelInfo video={video} />
           <Comments comments={comments} videoId={videoId} refreshComments={fetchComments}/>
         </div>
         <div className="w-full lg:w-[400px]">

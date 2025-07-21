@@ -1,21 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ThumbsUp, ThumbsDown, Share, Save } from "lucide-react";
 import { toggleLikeVideo } from "../../services/like";
-import { timeAgo } from "../../utilis/timeAgo"; 
-import { useAuth } from "../../hooks/useAuth";  
-import {toast} from "react-hot-toast";
-
+import { timeAgo } from "../../utilis/timeAgo";
+import { useAuth } from "../../hooks/useAuth";
+import { toast } from "react-hot-toast";
 
 const VideoDetails = ({ video }) => {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const [liked, setLiked] = useState(false);
 
+  useEffect(() => {
+    if (!user) {
+      setLiked(false);
+    } else {
+      setLiked(video?.isLiked || false);
+    }
+  }, [user, video?.isLiked]);
+
   const handleLikeToggle = async () => {
+    if (!user) {
+      toast("Please login to like the video");
+      return;
+    }
+
     try {
-      if (!user){
-        toast("Please login to like the video");
-        return;
-      } 
       const isLikedNow = await toggleLikeVideo(video._id);
       setLiked(isLikedNow);
     } catch (error) {
@@ -46,20 +54,16 @@ const VideoDetails = ({ video }) => {
       <h1 className="text-xl font-semibold">{video.title}</h1>
       <div className="flex justify-between items-center mt-2 text-gray-400 text-sm">
         <span>
-          {video.views} views • {timeAgo(video.createdAt)} {/* ✅ changed */}
+          {video.views} views • {timeAgo(video.createdAt)}
         </span>
         <div className="flex gap-4">
           <div
             onClick={handleLikeToggle}
-            className={`flex items-center gap-1 cursor-pointer hover:text-white ${
+            className={`flex items-center gap-1 hover:text-white ${
               liked ? "text-pink-500" : ""
-            }`}
+            } ${!user ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
           >
             <ThumbsUp size={18} />
-          </div>
-
-          <div className="flex items-center gap-1 cursor-pointer hover:text-white">
-            <ThumbsDown size={18} />
           </div>
 
           <div
