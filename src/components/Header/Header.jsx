@@ -18,9 +18,9 @@ const Header = ({ onLoginClick }) => {
         >
           <Menu size={24} />
         </button>
-        <a href="#" className="flex items-center space-x-2">
-          <Youtube size={32} className="text-red-600" />
-          <span className="text-2xl font-semibold hidden md:block">
+        <a href="#" className="flex items-center space-x-2 ml-6 ">
+          <Youtube size={32} className="text-red-600 " />
+          <span className="text-2xl font-semibold hidden md:block ">
             YouTube
           </span>
         </a>

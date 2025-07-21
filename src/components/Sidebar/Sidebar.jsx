@@ -1,14 +1,16 @@
-// src/components/Sidebar.js
+// src/components/Sidebar.jsx
 import React, { useContext } from 'react';
 import {
   Menu,
   Youtube,
-  Clapperboard,
   Home,
-  Flame,
-  Video,
   History,
+  Video,
   User,
+  PlusSquare,
+  Heart,
+  LayoutDashboard,
+  ListVideo
 } from 'lucide-react';
 import { SidebarContext } from '../../context/SidebarContext';
 import { useNavigate } from 'react-router-dom';
@@ -17,94 +19,84 @@ const Sidebar = () => {
   const { isSidebarOpen, isMobile, toggleSidebar } = useContext(SidebarContext);
   const navigate = useNavigate();
 
-  // Full sidebar item
-  const SidebarItem = ({ icon, name, active, onClick }) => (
-    <button
-      onClick={onClick}
-      className={`flex items-center w-full text-left space-x-6 px-4 py-3 rounded-lg hover:bg-zinc-800 ${
-        active ? 'bg-zinc-700' : ''
-      }`}
-    >
-      {icon}
-      <span className="font-medium">{name}</span>
-    </button>
-  );
-
-  // Collapsed sidebar item
-  const CollapsibleSidebarItem = ({ icon, name, onClick }) => (
-    <button
-      onClick={onClick}
-      className="flex flex-col items-center justify-center py-4 rounded-lg hover:bg-zinc-800 w-full"
-    >
-      {icon}
-      <span className="text-xs mt-1">{name}</span>
-    </button>
-  );
-
-  // 🔒 Hide sidebar entirely on mobile when closed
   if (isMobile && !isSidebarOpen) return null;
 
-  // 📏 Collapsed mode (icon-only)
-  if (!isSidebarOpen) {
-    return (
-      <aside className="fixed top-16 left-0 bg-[#0f0f0f] text-white h-full w-20 flex flex-col items-center py-4 z-40">
-        <CollapsibleSidebarItem icon={<Home size={24} />} name="Home" onClick={() => navigate('/')} />
-        <CollapsibleSidebarItem icon={<Flame size={24} />} name="Trending" />
-        <CollapsibleSidebarItem icon={<Clapperboard size={24} />} name="Subscriptions" />
-        <CollapsibleSidebarItem icon={<History size={24} />} name="History" />
-      </aside>
-    );
-  }
+  const navItems = [
+    { name: 'Home', icon: <Home size={20} />, route: '/' },
+    { name: 'Your Channel', icon: <User size={20} />, route: '/channel' },
+    { name: 'Your Videos', icon: <Video size={20} />, route: '/my-videos' },
+    { name: 'Liked Videos', icon: <Heart size={20} />, route: '/liked' },
+    { name: 'Watch History', icon: <History size={20} />, route: '/history' },
+    { name: 'Playlists', icon: <ListVideo size={20} />, route: '/playlists' },
+    { name: 'Dashboard', icon: <LayoutDashboard size={20} />, route: '/dashboard' },
+    { name: 'Upload Video', icon: <PlusSquare size={20} />, route: '/upload' },
+  ];
 
-  // 🧱 Full sidebar
   return (
     <aside
-      className={`fixed top-0 left-0 bg-[#0f0f0f] text-white h-full w-64 p-4 z-50 transform ${
-        isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      } transition-transform duration-300 ease-in-out`}
+      className={`fixed top-0 left-0 bg-[#0f0f0f] text-white h-full transition-[width] duration-300 ease-in-out overflow-hidden z-50 flex flex-col justify-between ${
+        isSidebarOpen ? 'w-64' : 'w-20'
+      }`}
     >
-      <div className="flex items-center space-x-4 mb-6 pt-2">
-        <button onClick={toggleSidebar} className="p-2 rounded-full hover:bg-zinc-800">
-          <Menu size={24} />
-        </button>
-        <div className="flex items-center space-x-2 cursor-pointer">
-          <Youtube size={32} className="text-red-600" />
-          <span className="text-2xl font-semibold">YouTube</span>
+      {/* Top: Logo & Toggle */}
+      <div className="p-4">
+        <div className="flex items-center space-x-2 mb-6">
+          <button
+            onClick={toggleSidebar}
+            className="p-2 rounded-full hover:bg-zinc-800 transition-colors duration-200"
+          >
+            <Menu size={20} />
+          </button>
+          <div
+            className={`flex items-center space-x-2 transition-all duration-300 ${
+              isSidebarOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+            }`}
+          >
+            <Youtube size={28} className="text-red-600" />
+            <span className="text-xl font-semibold">YouTube</span>
+          </div>
         </div>
+
+        {/* Nav Items */}
+        <nav className="flex flex-col space-y-2">
+          {navItems.map(({ name, icon, route }) => (
+            <button
+              key={name}
+              onClick={() => navigate(route)}
+              className="flex items-center hover:bg-zinc-800 px-3 py-2 rounded-md transition-colors duration-200 text-sm"
+            >
+              <span>{icon}</span>
+              <span
+                className={`ml-3 transition-all duration-300 overflow-hidden whitespace-nowrap ${
+                  isSidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0'
+                }`}
+              >
+                {name}
+              </span>
+            </button>
+          ))}
+        </nav>
       </div>
 
-      <nav>
-        <SidebarItem icon={<Home size={24} />} name="Home" active onClick={() => navigate('/')} />
-        <SidebarItem icon={<Flame size={24} />} name="Trending" />
-        <SidebarItem icon={<Clapperboard size={24} />} name="Subscriptions" />
-
-        <hr className="my-4 border-zinc-700" />
-
-        <h3 className="px-4 text-lg font-semibold mb-2">You</h3>
-        <SidebarItem icon={<User size={24} />} name="Your channel" />
-        <SidebarItem icon={<History size={24} />} name="History" />
-        <SidebarItem icon={<Video size={24} />} name="Your videos" />
-
-        <hr className="my-4 border-zinc-700" />
-
-        <h3 className="px-4 text-lg font-semibold mb-2">Subscriptions</h3>
-        <SidebarItem
-          icon={<img src="https://placehold.co/24x24/ff0000/ffffff?text=C" className="rounded-full" />}
-          name="Channel 1"
-        />
-        <SidebarItem
-          icon={<img src="https://placehold.co/24x24/00ff00/ffffff?text=C" className="rounded-full" />}
-          name="Channel 2"
-        />
-
-        <hr className="my-4 border-zinc-700" />
-
-        <div className="text-xs text-zinc-400 px-4 space-x-2">
-          <a href="#" className="hover:text-white">About</a>
-          <a href="#" className="hover:text-white">Press</a>
-          <a href="#" className="hover:text-white">Copyright</a>
+      {/* Bottom: Footer */}
+      <div className="text-xs text-zinc-400 mt-4 p-4">
+        <div className="relative h-4 flex justify-center items-center">
+          <span
+            className={`absolute transition-opacity duration-300 ${
+              isSidebarOpen ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            © 2025 Sumit Kumar
+          </span>
+          <span
+            className={`absolute text-[10px] transition-opacity duration-300 ${
+              isSidebarOpen ? 'opacity-0' : 'opacity-100'
+            }`}
+          >
+            ©
+          </span>
         </div>
-      </nav>
+      </div>
     </aside>
   );
 };
