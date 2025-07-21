@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import AuthProvider from './context/AuthProvider.jsx';
 import { Routes, Route } from 'react-router-dom'; 
 import VideoPlayerPage from './pages/VideoPlyaerPage.jsx';
+import LikedVideos from './pages/LikedVideos.jsx'; 
 const App = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/watch/:videoId" element={<VideoPlayerPage />} /> 
+          <Route path="/liked" element={<LikedVideos onLoginClick={() => setIsLoginOpen(true)} />} />
         </Routes>
       </Layout>
 

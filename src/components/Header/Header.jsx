@@ -4,6 +4,7 @@ import { Search, Menu, Youtube, Video, Bell, Mic } from "lucide-react";
 import { SidebarContext } from "../../context/SidebarContext";
 import { useAuth } from "../../hooks/useAuth";
 import AvatarDropdown from "./AvatarDropdown.jsx";
+import { FaUserCircle } from "react-icons/fa";
 
 const Header = ({ onLoginClick }) => {
   const { toggleSidebar } = useContext(SidebarContext);
@@ -54,11 +55,7 @@ const Header = ({ onLoginClick }) => {
           <AvatarDropdown />
         ) : (
           <button onClick={onLoginClick}>
-            <img
-              src="https://placehold.co/40x40/7e22ce/ffffff?text=U"
-              alt="User Avatar"
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border border-zinc-700"
-            />
+            <FaUserCircle className="w-7 h-7 sm:w-8 sm:h-8 text-zinc-300" />
           </button>
         )}
       </div>

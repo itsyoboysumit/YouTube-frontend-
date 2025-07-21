@@ -26,8 +26,8 @@ const Layout = ({ children, onLoginClick }) => {
       <div className="bg-[#0f0f0f] min-h-screen relative">
         <Header onLoginClick={onLoginClick} /> {/* ✔ Pass login control */}
         <Sidebar />
-        <main className={`pt-16 transition-all duration-300 ease-in-out text-white bg-[#0f0f0f] ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
-          <div className="p-4 sm:p-6 lg:p-8">{children}</div>
+        <main className={`pt-16 transition-all duration-300 ease-in-out text-white bg-[#0f0f0f] ${isSidebarOpen ? 'lg:ml-58' : 'lg:ml-20'}`}>
+          <div className="p-4 sm:p-6 lg:pt-8 lg:pr-8 lg:pb-8 lg:pl-4">{children}</div>
         </main>
       </div>
     </SidebarContext.Provider>
