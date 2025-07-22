@@ -8,6 +8,8 @@ import AuthProvider from './context/AuthProvider.jsx';
 import { Routes, Route } from 'react-router-dom'; 
 import VideoPlayerPage from './pages/VideoPlyaerPage.jsx';
 import LikedVideos from './pages/LikedVideos.jsx'; 
+import MyVideos from './pages/MyVideos.jsx';
+import WatchHistory from './pages/WatchHistory.jsx';
 const App = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
@@ -27,6 +29,8 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/watch/:videoId" element={<VideoPlayerPage />} /> 
           <Route path="/liked" element={<LikedVideos onLoginClick={() => setIsLoginOpen(true)} />} />
+          <Route path="/my-videos" element={<MyVideos />} />
+          <Route path="/history" element={<WatchHistory />} />
         </Routes>
       </Layout>
 

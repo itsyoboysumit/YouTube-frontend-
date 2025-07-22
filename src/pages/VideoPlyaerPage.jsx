@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+
 import { getVideoById, getAllVideos, updateVideoViewCount } from '../services/video';
 import { getVideoComments } from '../services/comment';
-import Loader from '../components/Loader';
+import { addToWatchHistory } from '../services/auth';
 
+import Loader from '../components/Loader';
 import VideoPlayer from '../components/VideoPlayerPage/VideoPlayer';
 import VideoDetails from '../components/VideoPlayerPage/VideoDetails';
 import ChannelInfo from '../components/VideoPlayerPage/ChannelInfo';
@@ -26,7 +28,14 @@ const VideoPlayerPage = () => {
         const fetchedVideo = await getVideoById(videoId);
         const fetchedComments = await getVideoComments(videoId);
         const allVideos = await getAllVideos();
-        updateVideoViewCount(videoId);
+
+        updateVideoViewCount(videoId); // ✅ Update view count
+
+        try {
+          await addToWatchHistory(videoId); // ✅ Add to history
+        } catch (err) {
+          console.warn("Failed to update watch history:", err);
+        }
 
         setVideo(fetchedVideo);
         setComments(fetchedComments);
@@ -59,27 +68,25 @@ const VideoPlayerPage = () => {
   }
 
   return (
-    <>
-      <div className="flex flex-col bg-[#0f0f0f] text-white min-h-screen">
-        <Fade duration={500} triggerOnce>
-          <div className="flex flex-col lg:flex-row px-4 lg:px-12 gap-6">
-            <div className="flex-1 w-full">
-              <VideoPlayer videoUrl={video.videoFile} />
-              <VideoDetails video={video} />
-              <ChannelInfo video={video} />
-              <Comments
-                comments={comments}
-                videoId={videoId}
-                refreshComments={fetchComments}
-              />
-            </div>
-            <div className="w-full lg:w-[400px]">
-              <RecommendedVideos videos={recommended} />
-            </div>
+    <div className="flex flex-col bg-[#0f0f0f] text-white min-h-screen">
+      <Fade duration={500} triggerOnce>
+        <div className="flex flex-col lg:flex-row px-4 lg:px-12 gap-6">
+          <div className="flex-1 w-full">
+            <VideoPlayer videoUrl={video.videoFile} />
+            <VideoDetails video={video} />
+            <ChannelInfo video={video} />
+            <Comments
+              comments={comments}
+              videoId={videoId}
+              refreshComments={fetchComments}
+            />
           </div>
-        </Fade>
-      </div>
-    </>
+          <div className="w-full lg:w-[400px]">
+            <RecommendedVideos videos={recommended} />
+          </div>
+        </div>
+      </Fade>
+    </div>
   );
 };
 
