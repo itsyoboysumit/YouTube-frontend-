@@ -5,6 +5,7 @@ import { SidebarContext } from "../../context/SidebarContext";
 import { useAuth } from "../../hooks/useAuth";
 import AvatarDropdown from "./AvatarDropdown.jsx";
 import { FaUserCircle } from "react-icons/fa";
+import { RiVideoAddLine } from "react-icons/ri";
 
 const Header = ({ onLoginClick }) => {
   const { toggleSidebar } = useContext(SidebarContext);
@@ -41,16 +42,14 @@ const Header = ({ onLoginClick }) => {
           </button>
         </div>
       </div>
-      <div className="flex items-center space-x-4">
-        <button className="p-2 rounded-full hover:bg-zinc-800">
-          <Video size={24} />
-        </button>
-        <button className="p-2 rounded-full hover:bg-zinc-800 relative">
-          <Bell size={24} />
-          <span className="absolute top-1 right-1 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5">
-            3
+      <div className="flex items-center space-x-4 p-2">
+        <button className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-zinc-800 border border-zinc-700">
+          <RiVideoAddLine className="w-6 h-6 text-white" />
+          <span className="hidden md:inline text-base font-semibold">
+            Create
           </span>
         </button>
+
         {user ? (
           <AvatarDropdown />
         ) : (
