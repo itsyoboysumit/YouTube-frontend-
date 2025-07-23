@@ -1,9 +1,15 @@
-import api from "../utils/api"; 
+import {api} from "./api"; 
 
-export const createPlaylist = async (playlistData) => {
-  const response = await api.post("/v1/playlist/", playlistData);
+export const createPlaylist = async ({ name, description = "" }) => {
+  const payload = {
+    name,
+    description, // always include both fields
+  };
+
+  const response = await api.post("/v1/playlist/", payload);
   return response.data.data;
 };
+
 
 export const getPlaylistById = async (playlistId) => {
   const response = await api.get(`/v1/playlist/${playlistId}`);

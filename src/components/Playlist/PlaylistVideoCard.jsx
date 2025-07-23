@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { formatViews } from "../../utilis/formatViews.js";
 import { timeAgo } from "../../utilis/timeAgo.js";
+import { X } from "lucide-react"; // optional icon
 
-export default function VideoCard({ video }) {
+export default function PlaylistVideoCard({ video, onRemove }) {
   if (
     !video ||
     typeof video !== "object" ||
@@ -16,6 +17,16 @@ export default function VideoCard({ video }) {
 
   return (
     <div className="relative group">
+      {/* Remove button (top-right corner) */}
+      <button
+        onClick={() => onRemove(video._id)}
+        className="absolute top-2 right-2 z-10 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition"
+        title="Remove from playlist"
+      >
+        <X size={16} />
+      </button>
+
+      {/* Video card content */}
       <Link to={`/watch/${video._id}`} className="block">
         <div className="bg-zinc-900 rounded-xl overflow-hidden shadow hover:scale-105 transition-transform cursor-pointer">
           <img
