@@ -43,7 +43,7 @@ export default function PlaylistCard({ playlist, onUpdate, onDelete }) {
             e.stopPropagation();
             onUpdate();
           }}
-          className="bg-blue-600 p-1 rounded hover:bg-blue-500"
+          className="bg-zinc-800 opacity-70 p-1 rounded hover:bg-zinc-500"
         >
           <Pencil className="w-4 h-4 text-white" />
         </button>
@@ -53,7 +53,7 @@ export default function PlaylistCard({ playlist, onUpdate, onDelete }) {
             e.stopPropagation();
             onDelete();
           }}
-          className="bg-red-600 p-1 rounded hover:bg-red-500"
+          className="bg-zinc-800 opacity-70 p-1 rounded hover:bg-zinc-500"
         >
           <Trash2 className="w-4 h-4 text-white" />
         </button>

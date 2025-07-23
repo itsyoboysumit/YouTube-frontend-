@@ -28,12 +28,14 @@ const PlaylistVideoPage = () => {
   if (loading || !selectedPlaylist) return <Loader />;
 
   const renderedVideoCards = (selectedPlaylist.videos || []).map((video) => (
+  <div key={video._id}>
     <PlaylistVideoCard
-      key={video._id}
       video={video}
-      onRemove={(id) => removeVideo(id, playlistId)} // ✅ directly using hook's function
+      onRemove={(id) => removeVideo(id, playlistId)}
     />
-  ));
+  </div>
+));
+
 
   return (
     <div className="p-4">
