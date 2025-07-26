@@ -4,7 +4,7 @@ import Loader from "../components/Loader";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../hooks/useAuth";
 
-import GuestMyVideos from "../components/MyVideos/GuestMyVideos";
+import GuestMessage from "../components/Common/GuestMessage";
 import MyVideosContent from "../components/MyVideos/MyVideosContent";
 
 const MyVideos = () => {
@@ -29,7 +29,10 @@ const MyVideos = () => {
     fetchMyVideos();
   }, [user]);
 
-  if (!user) return <GuestMyVideos />;
+  if (!user) return <GuestMessage
+    title="Manage Your Videos"
+    subtitle="Sign in to view and manage your uploaded videos."
+  />;
   if (loading) return <Loader />;
 
   return <MyVideosContent videos={videos} />;

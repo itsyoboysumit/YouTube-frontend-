@@ -1,14 +1,17 @@
 import { useAuth } from "../hooks/useAuth";
 import Loader from "../components/Loader";
 import LikedVideosContent from "../components/Liked/LikedVideosContent";
-import GuestLikedVideos from "../components/Liked/GuestLikedView";
+import GuestMessage from "../components/Common/GuestMessage";
 
-const LikedVideos = ({ onLoginClick }) => {
+const LikedVideos = () => {
   const { user, loading } = useAuth();
 
   if (loading) return <Loader />;
 
-  if (!user) return <GuestLikedVideos onLoginClick={onLoginClick} />;
+  if (!user) return <GuestMessage
+    title="Keep track of what you like"
+    subtitle="Sign in to see your liked videos."
+  />;
 
   return <LikedVideosContent />;
 };

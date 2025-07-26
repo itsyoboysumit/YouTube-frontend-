@@ -4,7 +4,7 @@ import { getCurrentUser } from "../../services/auth";
 
 import Loader from "../../components/Loader";
 import PlaylistContent from "../../components/Playlist/PlaylistContent";
-import GuestPlaylistView from "../../components/Playlist/GuestPlaylistView";
+import GuestMessage from "../../components/Common/GuestMessage";
 const PlaylistList = () => {
   const { user: contextUser, loading: authLoading } = useAuth();
   const [user, setUser] = useState(null);
@@ -32,7 +32,10 @@ const PlaylistList = () => {
   }, [contextUser, authLoading]);
 
   if (authLoading || localLoading) return <Loader />;
-  if (!user) return <GuestPlaylistView />;
+  if (!user) return <GuestMessage
+    title="Explore Playlists"
+    subtitle="Sign in to view and manage your playlists."
+  />;
   return <PlaylistContent userId={user._id} />;
 };
 

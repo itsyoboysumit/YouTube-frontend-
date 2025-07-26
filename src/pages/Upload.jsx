@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../hooks/useAuth";
 import VideoUploadForm from "../components/Upload/VideoUploadForm";
-import LoginRequired from "../components/Upload/LoginRequired";
+import GuestMessage from "../components/Common/GuestMessage";
 import Loader from "../components/Loader";
 
 export default function UploadPage() {
@@ -12,7 +12,10 @@ export default function UploadPage() {
   }
 
   if (!user) {
-    return <LoginRequired />;
+    return <GuestMessage
+      title="Welcome To Upload Section"
+      subtitle="Please log in to upload and manage content."
+    />;
   }
 
   return (

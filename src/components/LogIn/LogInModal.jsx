@@ -9,13 +9,12 @@ const LoginModal = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
-      setCurrentView('login'); // Reset view when modal opens
+      setCurrentView('login');
     }
   }, [isOpen]);
 
   if (!isOpen) return null;
 
-  // Title based on current view
   const getTitle = () => {
     switch (currentView) {
       case 'signup':
@@ -27,7 +26,6 @@ const LoginModal = ({ isOpen, onClose }) => {
     }
   };
 
-  // Renders the appropriate form view
   const renderForm = () => {
     if (currentView === 'signup') {
       return <RegisterForm onClose={onClose} />;
@@ -61,18 +59,19 @@ const LoginModal = ({ isOpen, onClose }) => {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         backdropFilter: 'blur(2px)',
       }}
+      onClick={onClose} // close when background is clicked
     >
       <Fade duration={500} triggerOnce>
-        <div className="bg-[#121212] p-6 rounded-lg w-full max-w-sm text-white shadow-xl z-50">
-          {/* Title */}
+        <div
+          className="bg-[#121212] p-6 rounded-lg w-full max-w-sm text-white shadow-xl z-50"
+          onClick={(e) => e.stopPropagation()} // prevent click from bubbling up
+        >
           <h2 className="text-xl font-semibold mb-4 text-center">{getTitle()}</h2>
 
-          {/* Dynamic Form */}
           <Fade key={currentView} duration={800} triggerOnce>
             <div>{renderForm()}</div>
           </Fade>
 
-          {/* View Switcher (only for login/signup) */}
           {currentView !== 'forgot' && (
             <p className="text-sm text-gray-400 text-center mt-4">
               {currentView === 'signup'
@@ -88,14 +87,6 @@ const LoginModal = ({ isOpen, onClose }) => {
               </button>
             </p>
           )}
-
-          {/* Cancel Button */}
-          <button
-            onClick={onClose}
-            className="text-xs mt-4 text-gray-400 hover:text-white w-full text-center"
-          >
-            Cancel
-          </button>
         </div>
       </Fade>
     </div>

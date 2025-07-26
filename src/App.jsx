@@ -13,6 +13,7 @@ import PlaylistList from "./pages/Playlist/PlaylistList.jsx";
 import PlaylistVideoPage from "./pages/Playlist/PlaylistVideo.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import UploadPage from "./pages/Upload.jsx";
+import RouteChangeLoader from "./components/Common/RouteChangeLoader.jsx";
 
 import AuthProvider from "./context/AuthProvider.jsx";
 import ModalProvider from "./context/ModalProvider.jsx"; 
@@ -22,6 +23,7 @@ const App = () => {
   return (
     <AuthProvider>
       <ModalProvider>
+        <RouteChangeLoader />
         <Toaster
           position="top-right"
           toastOptions={{
