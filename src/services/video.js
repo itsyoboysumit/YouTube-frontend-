@@ -13,7 +13,7 @@ export const uploadVideo = async ({ title, description, videoFile, thumbnail }) 
     },
   });
 
-  return response.data; // { statusCode, data, message, success }
+  return response.data.data; 
 };
 
 export const getAllVideos = async () => {

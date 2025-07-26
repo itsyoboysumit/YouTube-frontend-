@@ -50,7 +50,7 @@ const AvatarDropdown = () => {
                 <User size={18} /> My Profile
               </li>
               <li
-                onClick={() => navigate("/studio")}
+                onClick={() => navigate("/dashboard")}
                 className="flex items-center gap-2 p-2 hover:bg-[#2f2f2f] cursor-pointer rounded"
               >
                 <LayoutDashboard size={18} /> Studio

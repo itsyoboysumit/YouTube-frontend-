@@ -12,6 +12,9 @@ import MyVideos from "./pages/MyVideos.jsx";
 import WatchHistory from "./pages/WatchHistory.jsx";
 import PlaylistList from "./pages/Playlist/PlaylistList.jsx";
 import PlaylistVideoPage from "./pages/Playlist/PlaylistVideo.jsx"; 
+import Dashboard from "./pages/Dashboard.jsx";
+import UploadPage from "./pages/Upload.jsx";
+
 const App = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
@@ -38,6 +41,8 @@ const App = () => {
           <Route path="/history" element={<WatchHistory />} />
           <Route path="/playlists" element={<PlaylistList />} />
           <Route path="/playlist/:playlistId" element={<PlaylistVideoPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/upload" element={<UploadPage />} />
         </Routes>
       </Layout>
 
