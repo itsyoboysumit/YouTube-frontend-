@@ -4,7 +4,7 @@ import { getCurrentUser } from "../services/auth";
 import { getChannelStats } from "../services/dashboard";
 import Loader from "../components/Loader";
 import DashboardContent from "../components/Dashboard/DashboardContent";
-import GuestView from "../components/Dashboard/GuestView";
+import GuestView from "../components/Dashboard/GuestDashboardView";
 
 const DashboardPage = () => {
   const { user: contextUser, loading: authLoading } = useAuth();

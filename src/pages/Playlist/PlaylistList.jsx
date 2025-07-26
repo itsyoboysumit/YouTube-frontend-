@@ -1,72 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { usePlaylist } from "../../hooks/usePlaylist";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import { getCurrentUser } from "../../services/auth";
 
 import Loader from "../../components/Loader";
-import PlaylistCard from "../../components/Playlist/PlaylistCard";
-import PlaylistGrid from "../../components/Playlist/PlaylistGrid"; // ✅ updated import
-import UpdatePlaylistModal from "../../components/Playlist/UpdatePlaylistModal";
-import ConfirmDeleteModal from "../../components/Playlist/ConfirmDeleteModal";
-
+import PlaylistContent from "../../components/Playlist/PlaylistContent";
+import GuestPlaylistView from "../../components/Playlist/GuestPlaylistView";
 const PlaylistList = () => {
-  const { user } = useAuth();
-  const { playlists, loading, fetchUserPlaylists } = usePlaylist(user?._id);
-  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { user: contextUser, loading: authLoading } = useAuth();
+  const [user, setUser] = useState(null);
+  const [localLoading, setLocalLoading] = useState(false);
 
   useEffect(() => {
-    fetchUserPlaylists();
-  }, [fetchUserPlaylists]);
+    const fetchUser = async () => {
+      if (!authLoading && contextUser) {
+        try {
+          setLocalLoading(true);
+          const res = await getCurrentUser();
+          setUser(res.data);
+        } catch (err) {
+          console.error("Failed to fetch current user:", err);
+          setUser(null);
+        } finally {
+          setLocalLoading(false);
+        }
+      } else if (!authLoading && !contextUser) {
+        setUser(null);
+      }
+    };
 
-  const handleUpdate = (playlist) => {
-    setSelectedPlaylist(playlist);
-    setShowUpdateModal(true);
-  };
+    fetchUser();
+  }, [contextUser, authLoading]);
 
-  const handleDelete = (playlist) => {
-    setSelectedPlaylist(playlist);
-    setShowDeleteModal(true);
-  };
-
-  const renderedPlaylistCards = playlists.map((playlist) => (
-    <PlaylistCard
-      key={playlist._id}
-      playlist={playlist}
-      onUpdate={() => handleUpdate(playlist)}
-      onDelete={() => handleDelete(playlist)}
-    />
-  ));
-
-  return (
-    <div className="p-4">
-      <h1 className="text-white text-2xl font-semibold mb-6">Your Playlists</h1>
-
-      {loading ? (
-        <Loader />
-      ) : playlists.length === 0 ? (
-        <p className="text-gray-400">No playlists found.</p>
-      ) : (
-        <PlaylistGrid>{renderedPlaylistCards}</PlaylistGrid> // ✅ updated to use PlaylistGrid
-      )}
-
-      {showUpdateModal && (
-        <UpdatePlaylistModal
-          playlist={selectedPlaylist}
-          onClose={() => setShowUpdateModal(false)}
-          onUpdated={fetchUserPlaylists}
-        />
-      )}
-
-      {showDeleteModal && (
-        <ConfirmDeleteModal
-          playlist={selectedPlaylist}
-          onClose={() => setShowDeleteModal(false)}
-          onDeleted={fetchUserPlaylists}
-        />
-      )}
-    </div>
-  );
+  if (authLoading || localLoading) return <Loader />;
+  if (!user) return <GuestPlaylistView />;
+  return <PlaylistContent userId={user._id} />;
 };
 
 export default PlaylistList;

@@ -7,8 +7,8 @@ const GuestView = () => {
         <div className="flex justify-center mb-4 text-5xl text-zinc-400">
           <BsPersonFillExclamation />
         </div>
-        <h2 className="text-2xl font-bold mb-2 text-zinc-300">Welcome To Upload Section</h2>
-        <p className="text-zinc-200">Please log in to upload and manage content.</p>
+        <h2 className="text-2xl font-bold mb-2 text-zinc-300">No watch history.</h2>
+        <p className="text-zinc-200">Please sign in to see track your watch history.</p>
       </div>
     </div>
   );

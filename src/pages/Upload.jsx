@@ -16,13 +16,8 @@ export default function UploadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-10 px-4">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-8">
-          🎬 Upload New Video
-        </h1>
+    <div >
         <VideoUploadForm />
-      </div>
     </div>
   );
 }
