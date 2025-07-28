@@ -5,7 +5,8 @@ import { useAuth } from "../../hooks/useAuth";
 import { FaUserCircle } from "react-icons/fa";
 import { RiVideoAddLine } from "react-icons/ri";
 import AvatarDropdown from "./AvatarDropdown.jsx";
-import useModal from "../../hooks/useModal"; 
+import useModal from "../../hooks/useModal";
+import { Link } from "react-router-dom";
 const Header = () => {
   const { toggleSidebar } = useContext(SidebarContext);
   const { user } = useAuth();
@@ -33,7 +34,7 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search"
-            className="w-full bg-[#121212] border border-zinc-700 rounded-l-full px-4 py-2 focus:outline-none focus:border-blue-500 text-white"
+            className="w-full bg-[#121212] border border-zinc-700 rounded-l-full px-4 py-2 focus:outline-none focus:border-red-500 text-white"
           />
           <button className="bg-zinc-800 border border-zinc-700 border-l-0 px-6 py-2 rounded-r-full hover:bg-zinc-700">
             <Search size={24} />
@@ -45,15 +46,19 @@ const Header = () => {
       </div>
 
       <div className="flex items-center space-x-4 p-2">
-        <button className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-zinc-800 border border-zinc-700">
-          <RiVideoAddLine className="w-6 h-6 text-white" />
-          <span className="hidden md:inline text-base font-semibold">Create</span>
-        </button>
+        <Link to="/upload">
+          <button className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-zinc-800 border border-zinc-700">
+            <RiVideoAddLine className="w-6 h-6 text-white" />
+            <span className="hidden md:inline text-base font-semibold">
+              Create
+            </span>
+          </button>
+        </Link>
 
         {user ? (
           <AvatarDropdown />
         ) : (
-          <button onClick={openLoginModal}> 
+          <button onClick={openLoginModal}>
             <FaUserCircle className="w-7 h-7 sm:w-8 sm:h-8 text-zinc-300" />
           </button>
         )}
