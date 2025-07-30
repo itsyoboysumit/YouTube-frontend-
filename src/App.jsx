@@ -13,6 +13,7 @@ import PlaylistList from "./pages/Playlist/PlaylistList.jsx";
 import PlaylistVideoPage from "./pages/Playlist/PlaylistVideo.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import UploadPage from "./pages/Upload.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
 import RouteChangeLoader from "./components/Common/RouteChangeLoader.jsx";
 
 import AuthProvider from "./context/AuthProvider.jsx";
@@ -44,6 +45,7 @@ const App = () => {
             <Route path="/playlist/:playlistId" element={<PlaylistVideoPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/upload" element={<UploadPage />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
         </Layout>
         <LoginModalWrapper />

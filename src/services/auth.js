@@ -122,3 +122,8 @@ export const addToWatchHistory = async (videoId) => {
   return response.data;
 }
 
+export const forgotPassword = ({email}) =>
+  api.post('/v1/users/forgot-password', { email });
+
+export const resetPassword = (token, newPassword) =>
+  api.post('/v1/users/reset-password', { token, password: newPassword });
