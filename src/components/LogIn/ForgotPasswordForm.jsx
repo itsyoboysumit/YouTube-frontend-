@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { forgotPassword } from "../../services/auth"; // API service
+import { forgotPassword } from "../../services/auth";
 
 const ForgotPasswordForm = ({ onClose }) => {
   const [email, setEmail] = useState("");
@@ -11,9 +11,9 @@ const ForgotPasswordForm = ({ onClose }) => {
     setLoading(true);
 
     try {
-      await forgotPassword({ email }); // Sends POST to /auth/forgot-password
+      await forgotPassword({ email }); 
       toast.success("Password reset email sent! Please check your inbox.");
-      onClose?.(); // Close the modal if provided
+      onClose?.();
     } catch (err) {
       const message =
         err?.response?.data?.message || "Failed to send reset email";
@@ -39,7 +39,7 @@ const ForgotPasswordForm = ({ onClose }) => {
         type="submit"
         disabled={loading}
         className={`w-full p-2 rounded ${
-          loading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
+          loading ? "bg-red-400" : "bg-zinc-600 hover:bg-red-700"
         }`}
       >
         {loading ? "Sending..." : "Send Reset Email"}

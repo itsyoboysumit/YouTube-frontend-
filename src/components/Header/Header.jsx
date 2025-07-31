@@ -13,43 +13,47 @@ const Header = () => {
   const { openLoginModal } = useModal();
 
   return (
-    <header className="fixed top-0 left-0 right-0 opacity-95 bg-[#0f0f0f] text-white flex justify-between items-center px-4 py-2 z-50">
-      <div className="flex items-center space-x-4">
+    <header className="fixed top-0 left-0 right-0 opacity-95 bg-[#0f0f0f] text-white flex justify-between items-center px-2 sm:px-4 py-2 z-50">
+      <div className="flex items-center space-x-2 sm:space-x-4">
         <button
           onClick={toggleSidebar}
           className="p-2 rounded-full hover:bg-zinc-800"
         >
           <Menu size={24} />
         </button>
-        <a href="#" className="flex items-center space-x-2 ml-6">
-          <Youtube size={32} className="text-red-600" />
-          <span className="text-2xl font-semibold hidden md:block">
+
+        <a
+          href="#"
+          className="hidden sm:flex items-center space-x-2 ml-2 sm:ml-4"
+        >
+          <Youtube size={28} className="text-red-600" />
+          <span className="text-xl sm:text-2xl font-semibold hidden md:block">
             YouTube
           </span>
         </a>
       </div>
 
-      <div className="flex-1 flex justify-center px-4 lg:px-16">
-        <div className="w-full max-w-2xl flex items-center">
+      <div className="flex-1 flex justify-center px-2 sm:px-4 md:px-8">
+        <div className="w-full max-w-md flex items-center">
           <input
             type="text"
             placeholder="Search"
-            className="w-full bg-[#121212] border border-zinc-700 rounded-l-full px-4 py-2 focus:outline-none focus:border-red-500 text-white"
+            className="w-full bg-[#121212] border border-zinc-700 rounded-l-full px-3 py-1.5 focus:outline-none focus:border-red-500 text-white text-sm"
           />
-          <button className="bg-zinc-800 border border-zinc-700 border-l-0 px-6 py-2 rounded-r-full hover:bg-zinc-700">
-            <Search size={24} />
+          <button className="bg-zinc-800 border border-zinc-700 border-l-0 px-4 py-1.5 rounded-r-full hover:bg-zinc-700">
+            <Search size={20} />
           </button>
-          <button className="ml-4 p-2 rounded-full bg-zinc-800 hover:bg-zinc-700">
-            <Mic size={24} />
+          <button className="ml-2 p-2 rounded-full bg-zinc-800 hover:bg-zinc-700 hidden sm:inline-flex">
+            <Mic size={20} />
           </button>
         </div>
       </div>
 
-      <div className="flex items-center space-x-4 p-2">
-        <Link to="/upload">
+      <div className="flex items-center space-x-2 sm:space-x-3 p-1 sm:p-2">
+        <Link to="/upload" className="hidden sm:block">
           <button className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-zinc-800 border border-zinc-700">
-            <RiVideoAddLine className="w-6 h-6 text-white" />
-            <span className="hidden md:inline text-base font-semibold">
+            <RiVideoAddLine className="w-5 h-5 text-white" />
+            <span className="hidden md:inline text-sm font-semibold">
               Create
             </span>
           </button>
@@ -59,7 +63,7 @@ const Header = () => {
           <AvatarDropdown />
         ) : (
           <button onClick={openLoginModal}>
-            <FaUserCircle className="w-7 h-7 sm:w-8 sm:h-8 text-zinc-300" />
+            <FaUserCircle className="w-6 h-6 sm:w-7 sm:h-7 text-zinc-300" />
           </button>
         )}
       </div>
