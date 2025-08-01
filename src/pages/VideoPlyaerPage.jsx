@@ -13,9 +13,12 @@ import Comments from '../components/VideoPlayerPage/Comments';
 import RecommendedVideos from '../components/VideoPlayerPage/RecommendedVideos';
 
 import { Fade } from 'react-awesome-reveal';
+import { useAuth } from '../hooks/useAuth'; 
 
 const VideoPlayerPage = () => {
   const { videoId } = useParams();
+  const { currentUser } = useAuth(); 
+
   const [video, setVideo] = useState(null);
   const [comments, setComments] = useState([]);
   const [recommended, setRecommended] = useState([]);
@@ -30,12 +33,14 @@ const VideoPlayerPage = () => {
         const fetchedComments = await getVideoComments(videoId);
         const allVideos = await getAllVideos();
 
-        updateVideoViewCount(videoId); // ✅ Update view count
+        updateVideoViewCount(videoId); 
 
-        try {
-          await addToWatchHistory(videoId); // ✅ Add to history
-        } catch (err) {
-          console.warn("Failed to update watch history:", err);
+        if (currentUser) {
+          try {
+            await addToWatchHistory(videoId); 
+          } catch (err) {
+            console.warn("Failed to update watch history:", err);
+          }
         }
 
         setVideo(fetchedVideo);
@@ -49,8 +54,7 @@ const VideoPlayerPage = () => {
     };
 
     loadVideoData();
-  }, [videoId]);
-
+  }, [videoId, currentUser]); 
   const fetchComments = async () => {
     try {
       const fetchedComments = await getVideoComments(videoId);

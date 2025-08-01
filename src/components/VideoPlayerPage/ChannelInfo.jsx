@@ -8,7 +8,6 @@ import { toggleSubscription } from "../../services/subscription";
 const ChannelInfo = ({ video }) => {
   const { user } = useAuth();
   const [subscribersCount, setSubscriberscount] = useState(0);
-  console.log("isSubscribed:", video.isSubscribed);
   const [isSubscribed, setIsSubscribed] = useState(video.isSubscribed || false);
 
   useEffect(() => {

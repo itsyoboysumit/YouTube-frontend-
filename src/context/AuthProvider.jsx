@@ -27,11 +27,10 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const tryRestoreSession = async () => {
       try {
-        await refreshToken(); // cookies are automatically included
+        await refreshToken();
         const currentUser = await getCurrentUser();
         setUser(currentUser.data);
-      } catch (err) {
-        console.error('Session restore failed:', err);
+      } catch {
         setUser(null);
       } finally {
         setLoading(false);
