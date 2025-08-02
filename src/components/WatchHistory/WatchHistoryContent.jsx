@@ -1,4 +1,3 @@
-// src/components/WatchHistory/WatchHistoryContent.jsx
 import { useEffect, useState } from "react";
 import { getWatchHistory } from "../../services/auth";
 import VideoGrid from "../VideoGrid/VideoGrid";
@@ -14,9 +13,10 @@ export default function WatchHistoryContent() {
     const fetchWatchHistory = async () => {
       try {
         const res = await getWatchHistory();
-        setVideos(res.data);
-      } catch (error) {
-        toast.error("Failed to load watch history", error);
+        // Reverse the array here to show most recent first
+        setVideos(res.data.reverse());
+      } catch {
+        toast.error("Failed to load watch history");
       } finally {
         setLoading(false);
       }
@@ -31,7 +31,19 @@ export default function WatchHistoryContent() {
     <Fade duration={1000} triggerOnce>
       <div className="p-4">
         <h2 className="text-xl font-semibold mb-4 text-white">Your Watch History</h2>
-        <VideoGrid videos={videos} />
+
+        {videos.length === 0 ? (
+          <div className="text-center mt-16">
+            <p className="text-gray-400 text-lg mb-2">
+              You haven't watched any videos yet.
+            </p>
+            <p className="text-gray-500">
+              Start exploring content you love. The videos you watch will show up here for easy access later!
+            </p>
+          </div>
+        ) : (
+          <VideoGrid videos={videos} />
+        )}
       </div>
     </Fade>
   );

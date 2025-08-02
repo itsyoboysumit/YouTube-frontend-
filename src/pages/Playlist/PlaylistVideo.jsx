@@ -1,4 +1,3 @@
-// src/pages/PlaylistVideoPage.jsx
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { usePlaylist } from "../../hooks/usePlaylist";
@@ -27,15 +26,16 @@ const PlaylistVideoPage = () => {
 
   if (loading || !selectedPlaylist) return <Loader />;
 
-  const renderedVideoCards = (selectedPlaylist.videos || []).map((video) => (
-  <div key={video._id}>
-    <PlaylistVideoCard
-      video={video}
-      onRemove={(id) => removeVideo(id, playlistId)}
-    />
-  </div>
-));
+  const videos = selectedPlaylist.videos || [];
 
+  const renderedVideoCards = videos.map((video) => (
+    <div key={video._id}>
+      <PlaylistVideoCard
+        video={video}
+        onRemove={(id) => removeVideo(id, playlistId)}
+      />
+    </div>
+  ));
 
   return (
     <div className="p-4">
@@ -44,8 +44,16 @@ const PlaylistVideoPage = () => {
       </h1>
       <p className="text-gray-400 mb-6">{selectedPlaylist.description}</p>
 
-      {renderedVideoCards.length === 0 ? (
-        <p className="text-gray-400">No videos in this playlist.</p>
+      {videos.length === 0 ? (
+        <div className="text-center mt-16">
+          <p className="text-gray-400 text-lg mb-2">
+            This playlist is currently empty.
+          </p>
+          <p className="text-gray-500">
+            Add some videos to bring it to life! Curate your favorite content and
+            make this playlist truly yours.
+          </p>
+        </div>
       ) : (
         <PlaylistVideoGrid>{renderedVideoCards}</PlaylistVideoGrid>
       )}

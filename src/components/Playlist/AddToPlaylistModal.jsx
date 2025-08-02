@@ -33,7 +33,7 @@ const AddToPlaylistModal = ({ videoId, isOpen, onClose }) => {
   };
 
   const handleCreatePlaylist = async () => {
-    if (!newPlaylistName.trim()) return;
+    if (!newPlaylistName.trim() || !description.trim()) return;
 
     await createNewPlaylist({ name: newPlaylistName, description });
     setNewPlaylistName("");
@@ -76,13 +76,14 @@ const AddToPlaylistModal = ({ videoId, isOpen, onClose }) => {
             type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Description (optional)"
+            placeholder="Description"
             className="w-full px-3 py-1 rounded text-sm bg-zinc-800 text-white placeholder-gray-400"
           />
 
           <button
             onClick={handleCreatePlaylist}
-            className="w-full bg-red-600 text-white text-sm py-1 rounded hover:bg-red-500"
+            disabled={!newPlaylistName.trim() || !description.trim()}
+            className="w-full bg-red-600 text-white text-sm py-1 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-500"
           >
             Create Playlist
           </button>
@@ -111,7 +112,7 @@ const AddToPlaylistModal = ({ videoId, isOpen, onClose }) => {
                     className={`text-xs px-3 py-1 rounded ${
                       isAlreadyAdded
                         ? "bg-gray-600 cursor-not-allowed"
-                        : "bg-pink-600 hover:bg-pink-500"
+                        : "bg-red-600 hover:bg-red-500"
                     }`}
                   >
                     {isAlreadyAdded ? "Added" : "Add"}

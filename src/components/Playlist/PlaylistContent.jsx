@@ -33,10 +33,18 @@ const PlaylistContent = ({ userId }) => {
       {loading ? (
         <Loader />
       ) : playlists.length === 0 ? (
-        <p className="text-gray-400">No playlists found.</p>
+        <div className="text-center py-16">
+          <h2 className="text-2xl font-semibold text-gray-300">
+            You haven’t created any playlists yet!
+          </h2>
+          <p className="mt-2 text-gray-600 dark:text-gray-300">
+            Playlists help you organize your favorite content. Start building
+            your first playlist and make your channel more interactive!
+          </p>
+        </div>
       ) : (
         <PlaylistGrid>
-          {playlists.map((playlist) => (
+          {playlists.slice().reverse().map((playlist) => (
             <PlaylistCard
               key={playlist._id}
               playlist={playlist}
