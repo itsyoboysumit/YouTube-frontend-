@@ -16,9 +16,10 @@ export const uploadVideo = async ({ title, description, videoFile, thumbnail }) 
   return response.data.data; 
 };
 
-export const getAllVideos = async () => {
-  const response = await api.get('/v1/videos/');
-  return response.data.data.docs; // returns an array of video objects
+// src/services/video.js
+export const getAllVideos = async (params = {}) => {
+  const response = await api.get('/v1/videos', { params });
+  return response.data.data; // return the full pagination object (not just docs)
 };
 
 

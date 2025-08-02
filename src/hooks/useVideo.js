@@ -1,28 +1,33 @@
-// src/hooks/useVideos.js
-import { useEffect, useState } from 'react';
-import { getAllVideos } from '../services/video';
+import { useState, useEffect } from "react";
+import { getAllVideos } from "../services/video";
+import { shuffleArray } from "../utilis/shuffle";
 
-export const useVideos = () => {
+export default function useVideos() {
   const [videos, setVideos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchVideos = async () => {
+    loadVideos();
+  }, [page]);
 
-      try {
-        const res = await getAllVideos(); 
-        const docs = res || [];
+  const loadVideos = async () => {
+    if (loading || !hasMore) return;
+    setLoading(true);
 
-        setVideos(docs);
-      } catch (error) {
-        console.error('Failed to fetch videos:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    try {
+      const res = await getAllVideos({ page, limit: 50 });  
+      const shuffled = shuffleArray(res.docs);        
 
-    fetchVideos();
-  }, []);
+      setVideos(prev => [...prev, ...shuffled]);
+      setHasMore(res.hasNextPage);                     
+    } catch (error) {
+      console.error("Error fetching videos", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  return { videos, loading };
-};
+  return { videos, loadMore: () => setPage(p => p + 1), loading, hasMore };
+}

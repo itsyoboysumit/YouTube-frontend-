@@ -17,7 +17,7 @@ import { useAuth } from '../hooks/useAuth';
 
 const VideoPlayerPage = () => {
   const { videoId } = useParams();
-  const { currentUser } = useAuth(); 
+  const { user } = useAuth(); 
 
   const [video, setVideo] = useState(null);
   const [comments, setComments] = useState([]);
@@ -35,9 +35,9 @@ const VideoPlayerPage = () => {
 
         updateVideoViewCount(videoId); 
 
-        if (currentUser) {
+        if (user) {
           try {
-            await addToWatchHistory(videoId); 
+            await addToWatchHistory(videoId);
           } catch (err) {
             console.warn("Failed to update watch history:", err);
           }
@@ -45,7 +45,7 @@ const VideoPlayerPage = () => {
 
         setVideo(fetchedVideo);
         setComments(fetchedComments);
-        setRecommended(allVideos.filter(v => v._id !== videoId));
+        setRecommended(allVideos.docs.filter(v => v._id !== videoId));
       } catch (error) {
         console.error("Error loading video:", error);
       } finally {
@@ -54,7 +54,7 @@ const VideoPlayerPage = () => {
     };
 
     loadVideoData();
-  }, [videoId, currentUser]); 
+  }, [videoId, user]); 
   const fetchComments = async () => {
     try {
       const fetchedComments = await getVideoComments(videoId);
