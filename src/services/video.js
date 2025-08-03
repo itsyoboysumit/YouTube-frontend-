@@ -1,5 +1,6 @@
 import { api } from "./api";
 
+// Upload a new video
 export const uploadVideo = async ({ title, description, videoFile, thumbnail }) => {
   const formData = new FormData();
   formData.append('title', title);
@@ -16,19 +17,19 @@ export const uploadVideo = async ({ title, description, videoFile, thumbnail }) 
   return response.data.data; 
 };
 
-// src/services/video.js
+// Get all videos with optional filters/pagination
 export const getAllVideos = async (params = {}) => {
   const response = await api.get('/v1/videos', { params });
-  return response.data.data; // return the full pagination object (not just docs)
+  return response.data.data; // return the full pagination object
 };
 
-
-
+// Get video by ID
 export const getVideoById = async (videoId) => {
   const response = await api.get(`/v1/videos/${videoId}`);
-  return response.data.data; // returns the specific video object
+  return response.data.data;
 };
 
+// Update video thumbnail
 export const updateVideoThumbnail = async (videoId, thumbnailFile) => {
   const formData = new FormData();
   formData.append("thumbnail", thumbnailFile);
@@ -39,17 +40,35 @@ export const updateVideoThumbnail = async (videoId, thumbnailFile) => {
     },
   });
 
-  return response.data; // { statusCode, data, message, success }
+  return response.data;
 };
 
-// src/services/video.js
-
+// Delete video by ID
 export const deleteVideoById = async (videoId) => {
   const response = await api.delete(`/v1/videos/${videoId}`);
   return response.data;
 };
 
-
+// Increment view count for a video
 export const updateVideoViewCount = async (videoId) => {
   await api.patch(`/v1/videos/views/${videoId}`);
-}
+};
+
+// Search videos by query (title, description, username, fullName)
+export const searchVideos = async (query, page = 1, limit = 50) => {
+  try {
+    const response = await api.get('/v1/videos', {
+      params: {
+        query,
+        page,
+        limit,
+        sortBy: 'createdAt',
+        sortType: 'desc',
+      },
+    });
+    return response.data?.data?.docs || [];
+  } catch (error) {
+    console.error("Error searching videos:", error);
+    return [];
+  }
+};

@@ -15,6 +15,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import UploadPage from "./pages/Upload.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import RouteChangeLoader from "./components/Common/RouteChangeLoader.jsx";
+import SearchResultPage from "./pages/SearchResultPage.jsx";
 
 import AuthProvider from "./context/AuthProvider.jsx";
 import ModalProvider from "./context/ModalProvider.jsx"; 
@@ -46,6 +47,7 @@ const App = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/upload" element={<UploadPage />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/search" element={<SearchResultPage />} />
           </Routes>
         </Layout>
         <LoginModalWrapper />

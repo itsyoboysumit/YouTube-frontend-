@@ -1,16 +1,61 @@
-import React, { useContext } from "react";
-import { Search, Menu, Youtube, Video, Bell, Mic } from "lucide-react";
+import React, { useContext, useState } from "react";
+import { Search, Menu, Youtube, Mic } from "lucide-react";
 import { SidebarContext } from "../../context/SidebarContext";
 import { useAuth } from "../../hooks/useAuth";
 import { FaUserCircle } from "react-icons/fa";
 import { RiVideoAddLine } from "react-icons/ri";
 import AvatarDropdown from "./AvatarDropdown.jsx";
 import useModal from "../../hooks/useModal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 const Header = () => {
   const { toggleSidebar } = useContext(SidebarContext);
   const { user } = useAuth();
   const { openLoginModal } = useModal();
+  const navigate = useNavigate();
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isListening, setIsListening] = useState(false); 
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+    }
+  };
+
+  const handleVoiceSearch = () => {
+    if (!('webkitSpeechRecognition' in window)) {
+      alert("Your browser does not support speech recognition.");
+      return;
+    }
+
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    setIsListening(true); 
+
+    recognition.start();
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setSearchQuery(transcript);
+      navigate(`/search?query=${encodeURIComponent(transcript.trim())}`);
+      setSearchQuery("");
+      setIsListening(false);
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error", event);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false); 
+    };
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 opacity-95 bg-[#0f0f0f] text-white flex justify-between items-center px-2 sm:px-4 py-2 z-50">
@@ -37,13 +82,25 @@ const Header = () => {
         <div className="w-full max-w-md flex items-center">
           <input
             type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             placeholder="Search"
-            className="w-full bg-[#121212] border border-zinc-700 rounded-l-full px-3 py-1.5 focus:outline-none focus:border-red-500 text-white text-sm"
+            className="w-full bg-[#121212] border border-zinc-700 rounded-l-full px-3 py-1.5 focus:outline-none focus:border-zinc-50 text-white text-sm"
           />
-          <button className="bg-zinc-800 border border-zinc-700 border-l-0 px-4 py-1.5 rounded-r-full hover:bg-zinc-700">
+          <button
+            onClick={handleSearch}
+            className="bg-zinc-800 border border-zinc-700 border-l-0 px-4 py-1.5 rounded-r-full hover:bg-zinc-700"
+          >
             <Search size={20} />
           </button>
-          <button className="ml-2 p-2 rounded-full bg-zinc-800 hover:bg-zinc-700 hidden sm:inline-flex">
+
+          <button
+            onClick={handleVoiceSearch}
+            className={`ml-2 p-2 rounded-full hidden sm:inline-flex transition-colors duration-200 ${
+              isListening ? "bg-red-600" : "bg-zinc-800 hover:bg-zinc-700"
+            }`}
+          >
             <Mic size={20} />
           </button>
         </div>
