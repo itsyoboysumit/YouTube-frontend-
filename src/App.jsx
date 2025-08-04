@@ -16,6 +16,7 @@ import UploadPage from "./pages/Upload.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import RouteChangeLoader from "./components/Common/RouteChangeLoader.jsx";
 import SearchResultPage from "./pages/SearchResultPage.jsx";
+import ChannelPage from "./pages/ChannelPage.jsx";
 
 import AuthProvider from "./context/AuthProvider.jsx";
 import ModalProvider from "./context/ModalProvider.jsx"; 
@@ -48,6 +49,7 @@ const App = () => {
             <Route path="/upload" element={<UploadPage />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/search" element={<SearchResultPage />} />
+            <Route path="/channel" element={<ChannelPage />} />
           </Routes>
         </Layout>
         <LoginModalWrapper />

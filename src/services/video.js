@@ -30,18 +30,11 @@ export const getVideoById = async (videoId) => {
 };
 
 // Update video thumbnail
-export const updateVideoThumbnail = async (videoId, thumbnailFile) => {
-  const formData = new FormData();
-  formData.append("thumbnail", thumbnailFile);
-
-  const response = await api.patch(`/v1/videos/${videoId}`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-
-  return response.data;
+export const updateVideoThumbnail = async (videoId, formData) => {
+  const response = await api.patch(`/v1/videos/${videoId}`, formData);
+  return response.data.data;
 };
+
 
 // Delete video by ID
 export const deleteVideoById = async (videoId) => {
