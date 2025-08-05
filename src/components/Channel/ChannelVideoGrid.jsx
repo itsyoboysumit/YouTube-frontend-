@@ -1,21 +1,21 @@
 import ChannelVideoCard from './ChannelVideoCard.jsx';
 
-const VideoGrid = ({ videos }) => {
-  if (!videos?.length) {
-    return (
-      <div className="text-center text-gray-400 py-10">
-        No video found.
-      </div>
-    );
-  }
-
+const ChannelVideoGrid = ({ videos, onDelete, onUpdateThumbnail }) => {
+  
   return (
     <div className="flex flex-col gap-4 py-4">
       {videos.map((video) => (
-        <ChannelVideoCard key={video._id} video={video} />
+        <ChannelVideoCard
+          key={video._id}
+          video={video}
+          onDelete={() => onDelete(video._id)}
+          onUpdateThumbnail={(newFile) =>
+          onUpdateThumbnail(video._id, newFile)
+          }
+        />
       ))}
     </div>
   );
 };
 
-export default VideoGrid;
+export default ChannelVideoGrid;

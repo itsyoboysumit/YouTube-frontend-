@@ -1,19 +1,16 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Trash2, Image as ImageIcon } from "lucide-react";
 import { formatViews } from "../../utilis/formatViews.js";
 import { timeAgo } from "../../utilis/timeAgo.js";
-import useVideos from "../../hooks/useVideo.js";
 
-export default function ChannelVideoCard({ video }) {
-  const { deleteVideo, updateThumbnail } = useVideos();
+function ChannelVideoCard({ video, onDelete, onUpdateThumbnail }) {
   const [showConfirm, setShowConfirm] = useState(false);
 
-  /* ---------- handlers ---------- */
   const handleDeleteClick = () => setShowConfirm(true);
 
   const handleConfirmDelete = async () => {
-    await deleteVideo(video._id);
+    await onDelete();
     setShowConfirm(false);
   };
 
@@ -23,9 +20,9 @@ export default function ChannelVideoCard({ video }) {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
-    input.onchange = e => {
+    input.onchange = (e) => {
       const file = e.target.files?.[0];
-      if (file) updateThumbnail(video._id, file);
+      if (file) onUpdateThumbnail(file);
     };
     input.click();
   };
@@ -43,10 +40,8 @@ export default function ChannelVideoCard({ video }) {
 
   return (
     <>
-      {/* CARD */}
       <div className="relative w-full">
         <div className="flex flex-col sm:flex-row gap-3 w-full p-2 hover:bg-neutral-800 rounded-lg transition-all duration-300 relative">
-          {/* Delete Button */}
           <button
             onClick={handleDeleteClick}
             className="absolute top-2 right-2 z-10 opacity-70 hover:text-red-600 bg-zinc-800 hover:bg-zinc-950 text-white p-2 rounded-full shadow-md transition-colors"
@@ -55,10 +50,9 @@ export default function ChannelVideoCard({ video }) {
             <Trash2 size={20} />
           </button>
 
-          {/* Update Thumbnail Button */}
           <button
             onClick={handleUpdateThumbnail}
-            className="absolute top-2 mr-4 right-10 z-10 opacity-70 hover:text-red-600 bg-zinc-800 hover:bg-zinc-950 text-white p-2 rounded-full shadow-md transition-colors"
+            className="absolute top-2 mr-3 right-10 z-10 opacity-70 hover:text-red-600 bg-zinc-800 hover:bg-zinc-950 text-white p-2 rounded-full shadow-md transition-colors"
             title="Update Thumbnail"
           >
             <ImageIcon size={20} />
@@ -68,7 +62,6 @@ export default function ChannelVideoCard({ video }) {
             to={`/watch/${video._id}`}
             className="flex flex-col sm:flex-row w-full gap-3"
           >
-            {/* Thumbnail */}
             <div className="w-full sm:w-60 flex-shrink-0 relative aspect-video rounded-lg overflow-hidden">
               <img
                 src={video.thumbnail}
@@ -77,14 +70,14 @@ export default function ChannelVideoCard({ video }) {
               />
             </div>
 
-            {/* Video Info */}
             <div className="flex flex-col justify-start w-full">
               <h3 className="text-white font-semibold line-clamp-2 text-base sm:text-lg">
                 {video.title}
               </h3>
 
               <div className="text-sm text-gray-400 mb-1">
-                {formatViews(video.views || 0)} views • {timeAgo(video.createdAt)}
+                {formatViews(video.views || 0)} views •{" "}
+                {timeAgo(video.createdAt)}
               </div>
 
               <div className="flex items-center gap-2 mb-1">
@@ -106,7 +99,6 @@ export default function ChannelVideoCard({ video }) {
         </div>
       </div>
 
-      {/* CONFIRMATION MODAL */}
       {showConfirm && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
@@ -143,3 +135,5 @@ export default function ChannelVideoCard({ video }) {
     </>
   );
 }
+
+export default React.memo(ChannelVideoCard);

@@ -4,7 +4,7 @@ import ChannelUserInfo from './ChannelUserInfo';
 import ChannelTabs from './ChannelTabs';
 import useSubscribe from '../../hooks/useSubscribe';
 import ChannelGrid from '../Channel/ChannelGrid';
-import Loader from '../Loader'; // assuming you have a loader
+import Loader from '../Loader'; 
 import ChannelVideoContent from './ChannelVideoContent'
 
 const ChannelLayout = () => {
@@ -16,11 +16,10 @@ const ChannelLayout = () => {
   return (
     <div className="w-full min-h-screen bg-white dark:bg-black text-black dark:text-white">
       <ChannelBanner />
-      <div className="max-w-full mx-auto mt-10 px-4 sm:px-0">
+      <div className="max-w-full mx-auto mt-10 px-0 sm:px-4">
         <ChannelUserInfo />
         <ChannelTabs selectedTab={activeTab} onTabChange={setActiveTab} />
 
-        {/* Tab content display */}
         <div className="mt-6">
           {activeTab === 0 && (
             <ChannelVideoContent/>
