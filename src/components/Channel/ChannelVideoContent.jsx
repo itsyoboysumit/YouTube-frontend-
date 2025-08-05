@@ -34,9 +34,6 @@ export default function MyVideosContent() {
   return (
     <Fade duration={1000} triggerOnce>
       <div className="p-0 sm:p-4">
-        <h2 className="text-xl font-semibold mb-4 text-white">
-          Your Uploaded Videos
-        </h2>
         <ChannelVideoGrid
           videos={videos}
           onDelete={deleteVideo}

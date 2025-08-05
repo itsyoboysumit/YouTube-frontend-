@@ -87,7 +87,7 @@ export const updateAvatar = async (avatarFile) => {
     },
   });
 
-  return response.data; // returns updated user 
+  return response.data.data; // returns updated user 
 };
 
 
@@ -102,7 +102,7 @@ export const updateCoverImage = async (coverImageFile) => {
     },
   });
 
-  return response.data; // returns updated user
+  return response.data.data; // returns updated user
 };
 
 

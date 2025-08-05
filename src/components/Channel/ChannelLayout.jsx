@@ -16,11 +16,11 @@ const ChannelLayout = () => {
   return (
     <div className="w-full min-h-screen bg-white dark:bg-black text-black dark:text-white">
       <ChannelBanner />
-      <div className="max-w-full mx-auto mt-10 px-0 sm:px-4">
+      <div className="w-full mx-auto mt-10 px-0 sm:px-4 ">
         <ChannelUserInfo />
         <ChannelTabs selectedTab={activeTab} onTabChange={setActiveTab} />
 
-        <div className="mt-6">
+        <div className="mt-6 pb-6">
           {activeTab === 0 && (
             <ChannelVideoContent/>
           )}

@@ -4,7 +4,7 @@ import { FiVideo, FiEye, FiUserPlus, FiThumbsUp } from "react-icons/fi";
 const DashboardContent = ({ user, stats }) => {
   return (
     <Fade duration={2000} triggerOnce>
-      <div className="text-white min-h-screen bg-gradient-to-br from-[#0f0f0f] via-[#1e1e2f] to-[#2f2f4f]">
+      <div className="text-white min-h-screen bg-gradient-to-br from-[#0f0f0f] via-[#181818] to-[#202020]">
         {/* Cover Image */}
         <div
           className="h-48 sm:h-64 w-full bg-cover bg-center relative"
@@ -36,7 +36,7 @@ const DashboardContent = ({ user, stats }) => {
           </div>
 
           {/* Stats */}
-          <div className="flex-[2] grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+          <div className="flex-[2] grid grid-cols-1  md:grid-cols-2 gap-6 w-full">
             <StatCard icon={<FiVideo size={28} />} label="Total Videos" value={stats.totalVideos} />
             <StatCard icon={<FiEye size={28} />} label="Total Views" value={stats.totalViews} />
             <StatCard icon={<FiUserPlus size={28} />} label="Subscribers" value={stats.totalSubscribers} />
@@ -49,11 +49,11 @@ const DashboardContent = ({ user, stats }) => {
 };
 
 const StatCard = ({ icon, label, value }) => (
-  <div className="bg-[#1f1f2f] p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300 flex items-center gap-4 min-h-[110px]">
-    <div className="text-violet-400">{icon}</div>
+  <div className="bg-[#262525] p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300 flex items-center gap-4 min-h-[110px]">
+    <div className="text-[#FF0000]">{icon}</div> {/* YouTube red */}
     <div>
-      <h4 className="text-base text-zinc-400">{label}</h4>
-      <p className="text-2xl font-bold">{value}</p>
+      <h4 className="text-base text-zinc-300">{label}</h4>
+      <p className="text-2xl font-bold text-white">{value}</p>
     </div>
   </div>
 );

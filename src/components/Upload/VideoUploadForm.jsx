@@ -15,8 +15,14 @@ export default function VideoUploadForm() {
     handleSubmit,
   } = useVideoUpload();
 
+  const commonInputStyles =
+    "w-full p-2 rounded bg-zinc-900 text-white placeholder-gray-500 border border-gray-700 outline-none ring-0 focus:border-zinc-50 focus:ring-1 focus:ring-zinc-50 transition duration-150 ease-in-out";
+
+  const fileInputStyles =
+    "block w-full p-2 rounded bg-zinc-900 text-white border border-gray-700 outline-none ring-0 focus:border-zinc-50 focus:ring-1 focus:ring-zinc-50 file:bg-gray-800 file:text-white file:border-0 file:px-3 file:py-1 file:rounded transition duration-150 ease-in-out";
+
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-zinc-950 text-white rounded-xl shadow-lg">
+    <div className="max-w-full pb-15 pt-10 mx-auto p-6 bg-zinc-900 text-white rounded-xl shadow-lg">
       <div className="flex items-center justify-center gap-3 mb-6">
         <FaFileUpload className="text-2xl" />
         <span className="text-xl font-semibold">Upload Video</span>
@@ -30,9 +36,9 @@ export default function VideoUploadForm() {
             name="title"
             value={title}
             onChange={handleChange}
-            className={`w-full p-2 rounded bg-zinc-900 text-white placeholder-gray-500 border ${
-              errors.title ? "border-red-500" : "border-gray-700"
-            } outline-none ring-0`}
+            className={`${commonInputStyles} ${
+              errors.title ? "border-red-500" : ""
+            }`}
             placeholder="Enter video title"
           />
           {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
@@ -44,13 +50,15 @@ export default function VideoUploadForm() {
             name="description"
             value={description}
             onChange={handleChange}
-            className={`w-full p-2 rounded resize-none bg-zinc-900 text-white placeholder-gray-500 border ${
-              errors.description ? "border-red-500" : "border-gray-700"
-            } outline-none ring-0`}
+            className={`${commonInputStyles} resize-none ${
+              errors.description ? "border-red-500" : ""
+            }`}
             placeholder="Write a short description"
             rows={4}
           />
-          {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+          )}
         </div>
 
         <div>
@@ -60,11 +68,13 @@ export default function VideoUploadForm() {
             accept="video/mp4,video/webm,video/quicktime"
             name="videoFile"
             onChange={(e) => handleFileChange(e, "videoFile")}
-            className={`block w-full p-2 rounded bg-zinc-900 text-white border ${
-              errors.videoFile ? "border-red-500" : "border-gray-700"
-            } outline-none ring-0 file:bg-gray-800 file:text-white file:border-0 file:px-3 file:py-1 file:rounded`}
+            className={`${fileInputStyles} ${
+              errors.videoFile ? "border-red-500" : ""
+            }`}
           />
-          {errors.videoFile && <p className="text-red-500 text-sm mt-1">{errors.videoFile}</p>}
+          {errors.videoFile && (
+            <p className="text-red-500 text-sm mt-1">{errors.videoFile}</p>
+          )}
           <p className="text-xs text-gray-500 mt-1">
             Note: Video must be under 50MB and in .mp4, .webm, or .mov format.
           </p>
@@ -80,11 +90,13 @@ export default function VideoUploadForm() {
             accept="image/*"
             name="thumbnail"
             onChange={(e) => handleFileChange(e, "thumbnail")}
-            className={`block w-full p-2 rounded bg-zinc-900 text-white border ${
-              errors.thumbnail ? "border-red-500" : "border-gray-700"
-            } outline-none ring-0 file:bg-gray-800 file:text-white file:border-0 file:px-3 file:py-1 file:rounded`}
+            className={`${fileInputStyles} ${
+              errors.thumbnail ? "border-red-500" : ""
+            }`}
           />
-          {errors.thumbnail && <p className="text-red-500 text-sm mt-1">{errors.thumbnail}</p>}
+          {errors.thumbnail && (
+            <p className="text-red-500 text-sm mt-1">{errors.thumbnail}</p>
+          )}
           {thumbnailPreview && (
             <img
               src={thumbnailPreview}
@@ -98,7 +110,7 @@ export default function VideoUploadForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-gray-600 text-white px-6 py-2 rounded hover:bg-red-700 disabled:opacity-60 outline-none ring-0"
+            className="bg-gray-600 text-white px-6 py-2 rounded hover:bg-red-700 disabled:opacity-60 outline-none ring-0 transition duration-150 ease-in-out"
           >
             {isSubmitting ? "Uploading..." : "Upload Video"}
           </button>

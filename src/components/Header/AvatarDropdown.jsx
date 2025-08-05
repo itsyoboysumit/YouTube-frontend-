@@ -34,11 +34,11 @@ const AvatarDropdown = () => {
         src={user?.avatar}
         alt="avatar"
         onClick={toggleDropdown}
-        className="w-10 h-10 rounded-full cursor-pointer border border-gray-600"
+        className="w-8 h-8 rounded-full cursor-pointer border border-gray-600"
       />
       {open && (
         <Fade duration={500} triggerOnce>
-          <div className="absolute right-0 mt-2 w-56 bg-[#1f1f1f] border border-gray-700 text-white rounded-xl shadow-lg z-50">
+          <div className="absolute  right-0 mt-2 w-56 bg-[#1f1f1f]/90 border border-gray-700 text-white rounded-xl shadow-lg z-50">
             <ul className="p-2">
               <li
                 onClick={() => {
@@ -63,7 +63,7 @@ const AvatarDropdown = () => {
               </li>
               <li
                 onClick={handleLogout}
-                className="flex items-center gap-2 p-2 hover:bg-[#2f2f2f] cursor-pointer rounded text-red-400"
+                className="flex items-center gap-2 p-2 hover:bg-[#2f2f2f] cursor-pointer rounded text-red-600 font-semibold"
               >
                 <LogOut size={18} /> Logout
               </li>

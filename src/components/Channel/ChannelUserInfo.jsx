@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { timeAgo } from '../../utilis/timeAgo';
-import { Pencil, Users, Radio } from 'lucide-react';
-import { getChannelProfile } from '../../services/auth';
+import { Pencil, Users, Radio, Check, X } from 'lucide-react';
+import { getChannelProfile, updateAccount } from '../../services/auth';
 
 const ChannelUserInfo = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth(); 
   const [channelData, setChannelData] = useState(null);
+  const [editingField, setEditingField] = useState(null);
+  const [formData, setFormData] = useState({ fullName: '' });
 
   useEffect(() => {
     if (user?.username) {
@@ -14,28 +16,64 @@ const ChannelUserInfo = () => {
         .then((res) => setChannelData(res.data))
         .catch((err) => console.error('Error fetching channel data:', err));
     }
-  }, [user?.username]);
+
+    if (user) {
+      setFormData({ fullName: user.fullName });
+    }
+  }, [user]);
+
+  const handleSave = async () => {
+    try {
+      const payload = {};
+      if (editingField === 'fullName') payload.fullName = formData.fullName;
+
+      const updatedUser = await updateAccount(payload);
+      setUser(updatedUser.data); 
+      setEditingField(null);
+    } catch (err) {
+      console.error('Failed to update:', err);
+    }
+  };
 
   if (!user) return null;
 
   return (
-    <div className="px-6 py-8 bg-white dark:bg-black text-black dark:text-white shadow-md rounded-lg transition-all max-w-screen-lg ">
+    <div className="px-6 py-8 bg-white dark:bg-black text-black dark:text-white shadow-md rounded-lg transition-all">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-star tmd:items-center gap-6 md:gap-6 lg:gap-6 xl:gap-6 mb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-6">
         {/* Left Side: Full Name and Email */}
         <div className="flex flex-col gap-3">
+          {/* Full Name */}
           <div className="flex items-center gap-2">
-            <h1 className="text-3xl md:text-4xl font-bold">{user.fullName}</h1>
-            <Pencil size={20} className="text-gray-400 cursor-pointer hover:text-red-500 transition" />
+            {editingField === 'fullName' ? (
+              <>
+                <input
+                  type="text"
+                  value={formData.fullName}
+                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                  className="bg-transparent border-b border-gray-300 dark:border-gray-600 focus:outline-none"
+                />
+                <Check size={18} className="text-green-500 cursor-pointer" onClick={handleSave} />
+                <X size={18} className="text-red-500 cursor-pointer" onClick={() => setEditingField(null)} />
+              </>
+            ) : (
+              <>
+                <h1 className="text-3xl md:text-4xl font-bold">{user.fullName}</h1>
+                <Pencil
+                  size={20}
+                  className="text-gray-400 cursor-pointer hover:text-red-500 transition"
+                  onClick={() => setEditingField('fullName')}
+                />
+              </>
+            )}
           </div>
-          <div className="flex items-center gap-2">
-            <p className="text-md text-gray-500 dark:text-gray-300">{user.email}</p>
-            <Pencil size={18} className="text-gray-400 cursor-pointer hover:text-red-500 transition" />
-          </div>
+
+          {/* Static Email Display Only */}
+          <p className="text-md text-gray-500 dark:text-gray-300">{user.email}</p>
         </div>
 
         {/* Right Side: Username and Member Since */}
-        <div className="bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 shadow-sm text-sm space-y-2 w-full md:w-auto lg:w-auto xl:w-auto">
+        <div className="bg-zinc-100 dark:bg-zinc-900 rounded-xl p-4 shadow-sm text-sm space-y-2 w-full md:w-auto">
           <p>
             <span className="font-semibold uppercase tracking-wide text-gray-700 dark:text-gray-300">Username:</span>{' '}
             <span className="text-black dark:text-white">{user.username}</span>
@@ -49,8 +87,8 @@ const ChannelUserInfo = () => {
 
       {/* Stats Section */}
       {channelData && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-15">
-          {/* Subscribers Card */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
+          {/* Subscribers */}
           <div className="group flex items-center gap-4 p-5 rounded-xl shadow hover:shadow-xl bg-gradient-to-tr from-zinc-900 to-zinc-800 transition hover:scale-[1.02]">
             <div className="bg-zinc-700 p-3 rounded-full text-white group-hover:text-red-400 transition">
               <Users size={28} />
@@ -61,7 +99,7 @@ const ChannelUserInfo = () => {
             </div>
           </div>
 
-          {/* Subscribed Channels Card */}
+          {/* Subscribed Channels */}
           <div className="group flex items-center gap-4 p-5 rounded-xl shadow hover:shadow-xl bg-gradient-to-tr from-zinc-900 to-zinc-800 transition hover:scale-[1.02]">
             <div className="bg-zinc-700 p-3 rounded-full text-white group-hover:text-red-400 transition">
               <Radio size={28} />

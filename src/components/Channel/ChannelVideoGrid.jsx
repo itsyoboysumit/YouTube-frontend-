@@ -3,7 +3,7 @@ import ChannelVideoCard from './ChannelVideoCard.jsx';
 const ChannelVideoGrid = ({ videos, onDelete, onUpdateThumbnail }) => {
   
   return (
-    <div className="flex flex-col gap-4 py-4">
+    <div className="flex flex-col gap-6 py-4">
       {videos.map((video) => (
         <ChannelVideoCard
           key={video._id}

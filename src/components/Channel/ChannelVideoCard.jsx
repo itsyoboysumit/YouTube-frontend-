@@ -44,7 +44,7 @@ function ChannelVideoCard({ video, onDelete, onUpdateThumbnail }) {
         <div className="flex flex-col sm:flex-row gap-3 w-full p-2 hover:bg-neutral-800 rounded-lg transition-all duration-300 relative">
           <button
             onClick={handleDeleteClick}
-            className="absolute top-2 right-2 z-10 opacity-70 hover:text-red-600 bg-zinc-800 hover:bg-zinc-950 text-white p-2 rounded-full shadow-md transition-colors"
+            className="absolute top-2 mt-1 mr-1 sm:mt-0 sm:mr-0 right-2 z-10 opacity-70 hover:text-red-600 bg-zinc-800 hover:bg-zinc-950 text-white p-2 rounded-full shadow-md transition-colors"
             title="Delete Video"
           >
             <Trash2 size={20} />
@@ -52,7 +52,7 @@ function ChannelVideoCard({ video, onDelete, onUpdateThumbnail }) {
 
           <button
             onClick={handleUpdateThumbnail}
-            className="absolute top-2 mr-3 right-10 z-10 opacity-70 hover:text-red-600 bg-zinc-800 hover:bg-zinc-950 text-white p-2 rounded-full shadow-md transition-colors"
+            className="absolute top-2  mt-1 mr-3 sm:mt-0  right-10 z-10 opacity-70 hover:text-red-600 bg-zinc-800 hover:bg-zinc-950 text-white p-2 rounded-full shadow-md transition-colors"
             title="Update Thumbnail"
           >
             <ImageIcon size={20} />
