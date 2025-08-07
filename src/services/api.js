@@ -3,7 +3,7 @@ import { startLoader, stopLoader } from "../utilis/loader";
 
 export const api = axios.create({
   baseURL: "https://backend-project-ger2.onrender.com/api",  
-  withCredentials: true,                    // for cookies (auth tokens)
+  withCredentials: true,                    
 });
 
 api.interceptors.request.use((config) => {

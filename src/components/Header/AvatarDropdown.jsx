@@ -43,27 +43,21 @@ const AvatarDropdown = () => {
               <li
                 onClick={() => {
                   setOpen(false);
-                  navigate("/profile");
+                  navigate("/channel");
                 }}
-                className="flex items-center gap-2 p-2 hover:bg-[#2f2f2f] cursor-pointer rounded"
+                className="flex items-center gap-2 p-2 hover:bg-zinc-600 cursor-pointer rounded"
               >
                 <User size={18} /> My Profile
               </li>
               <li
                 onClick={() => navigate("/dashboard")}
-                className="flex items-center gap-2 p-2 hover:bg-[#2f2f2f] cursor-pointer rounded"
+                className="flex items-center gap-2 p-2 hover:bg-zinc-600 cursor-pointer rounded"
               >
                 <LayoutDashboard size={18} /> Studio
               </li>
               <li
-                onClick={() => navigate("")}
-                className="flex items-center gap-2 p-2 hover:bg-[#2f2f2f] cursor-pointer rounded"
-              >
-                <Settings size={18} /> Settings
-              </li>
-              <li
                 onClick={handleLogout}
-                className="flex items-center gap-2 p-2 hover:bg-[#2f2f2f] cursor-pointer rounded text-red-600 font-semibold"
+                className="flex items-center gap-2 p-2 hover:bg-zinc-600 cursor-pointer rounded text-red-500 font-bold hover:text-zinc-50"
               >
                 <LogOut size={18} /> Logout
               </li>
