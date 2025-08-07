@@ -1,12 +1,125 @@
-# React + Vite
+# YouTube-frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the **frontend** for a YouTube clone built using **React**, **Tailwind CSS**, and **React Router**. It communicates with a backend server (Node.js/Express) via REST APIs to handle video streaming, user authentication, subscribe, comments, likes, playlist management, and more.
 
-Currently, two official plugins are available:
+## 🌐 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+👉 [https://miniyoutube459.netlify.app](https://miniyoutube459.netlify.app)
 
-## Expanding the ESLint configuration
+## 🧪 Demo Credentials (No Signup Required)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Email:** `sumit@example.com`  
+**Password:** `mySecurePassword321`
+
+*Note: These credentials are for demo purposes only.*
+---
+
+## 📁 Project Structure
+
+```bash
+youtube-frontend/
+├── public/
+│   └── index.html
+├── src/
+│   ├── assets/                # Static assets (images, icons, etc)
+│   ├── components/            # Reusable UI components
+│   ├── hooks/                 # Custom React hooks
+│   ├── pages/                 # Route-based pages
+│   ├── services/              # API request handlers
+│   ├── theme/                 # Theme context (dark/light)
+│   ├── utils/                 # Utility functions
+│   ├── App.jsx                # Main component
+│   ├── main.jsx               # Entry point
+│   └── index.css              # Tailwind CSS
+├── .gitignore
+├── package.json
+└── README.md
+```
+
+---
+
+## 🚦 Routing (React Router DOM)
+
+All routes are defined inside `App.jsx` using `react-router-dom`.
+
+```jsx
+import { Routes, Route } from "react-router-dom";
+
+<Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/video/:id" element={<VideoPage />} />
+  <Route path="/search" element={<SearchResults />} />
+  <Route path="/channel/:id" element={<ChannelPage />} />
+  <Route path="/playlists" element={<PlaylistList />} />
+  <Route path="/playlists/:id" element={<PlaylistVideoPage />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/signup" element={<Signup />} />
+  <Route path="/forgot-password" element={<ForgotPassword />} />
+  <Route path="/reset-password/:token" element={<ResetPassword />} />
+</Routes>
+```
+
+All dynamic routes use `useParams()` to extract route variables (like video ID or playlist ID).
+
+---
+
+## 📦 Features
+
+- 🎥 Video play
+- 🔍 Video search with debounce
+- 🧾 Playlist creation, update, delete
+- 👤 User profile and channel page
+- 👤 Like and comment on video 
+- 📂 Modular components (VideoCard, PlaylistCard, etc)
+- 🧠 Global state management using Context API
+
+---
+
+## 🛠️ Tech Stack
+
+- **React** (Vite)
+- **Tailwind CSS**
+- **React Router DOM**
+- **Axios** for API calls
+- **Lucide-react** for icons
+
+---
+
+## 🔌 API Services
+
+API calls are centralized in the `services/` folder. All endpoints interact with the backend server via REST.
+
+Example:
+```js
+// services/video.js
+export const getAllVideos = async () => {
+  const response = await api.get("/v1/videos");
+  return response.data;
+};
+```
+
+---
+
+## 💻 Setup Instructions
+
+```bash
+git clone https://github.com/itsyoboysumit/YouTube-frontend.git
+cd YouTube-frontend
+npm install
+npm run dev
+```
+
+Make sure to run the backend server (`backend_project`) on the appropriate port (usually `localhost:5000`) and configure any required environment variables or proxy settings.
+
+---
+
+## 🙋‍♂️ About Me
+
+**Sumit Kumar**  
+💼 Aspiring Full Stack Developer  
+🔗 GitHub: [@itsyoboysumit](https://github.com/itsyoboysumit)  
+📧 Email: [sumitkumar67670@gmail.com](mailto:sumitkumar67670@gmail.com)
+
+---
+
+> For full backend code, check: [https://github.com/itsyoboysumit/backend_project](https://github.com/itsyoboysumit/backend_project)
